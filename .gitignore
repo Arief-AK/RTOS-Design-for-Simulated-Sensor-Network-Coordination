@@ -54,4 +54,7 @@ CMakeUserPresets.json
 # External projects
 *-prefix/
 
+# Drawio Stuff
+*.bkp
+
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake
