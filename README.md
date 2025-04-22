@@ -1,5 +1,7 @@
 # RTOS Sensor Network Simulation
 
+[![CMake on multiple platforms](https://github.com/Arief-AK/RTOS-Design-for-Simulated-Sensor-Network-Coordination/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/Arief-AK/RTOS-Design-for-Simulated-Sensor-Network-Coordination/actions/workflows/cmake-multi-platform.yml)
+
 A C++ implementation of a real-time operating system (RTOS) simulation for coordinating sensor networks.
 
 ## Overview
