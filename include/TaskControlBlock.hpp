@@ -20,7 +20,7 @@ struct TaskControlBlock{
     // Constructor
     TaskControlBlock(
         int id, TaskType type, int period, int exec_time, int deadline,
-        int priority, int arr_time, int rem_time, TaskStatus status
+        int priority, int arr_time
     ):
         task_id(id),
         task_type(type),
@@ -29,8 +29,8 @@ struct TaskControlBlock{
         deadline(deadline),
         priority(priority),
         arrival_time(arr_time),
-        remaining_time(rem_time),
-        status(status) {}
+        remaining_time(exec_time),
+        status(TaskStatus::READY) {}
 };
 
 #endif // TASK_CONTROL_BLOCK_HPP
