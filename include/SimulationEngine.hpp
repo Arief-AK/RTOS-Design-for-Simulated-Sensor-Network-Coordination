@@ -10,7 +10,9 @@ public:
     ~SimulationEngine();
 
     void run();
+    
     int getCurrentTime() const;
+    void printStatistics() const;
 
 private:
     std::unique_ptr<TaskController> m_task_controller;

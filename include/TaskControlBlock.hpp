@@ -14,6 +14,8 @@ struct TaskControlBlock{
     int deadline;
     int priority;
     int arrival_time;
+    int start_time = -1;
+    int finish_time = -1;
     int remaining_time;
     TaskStatus status;
 
