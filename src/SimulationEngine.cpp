@@ -13,8 +13,8 @@ SimulationEngine::~SimulationEngine()
 }
 
 void SimulationEngine::run(){
-    std::cout << "********* Simulation Engine Started *********\n";
-    std::cout << "Using scheduler: " << m_scheduler->getName() << "\n";
+    std::cout << "********* " << m_scheduler->getName() << " Simulation Engine Started *********\n";
+    // std::cout << "Using scheduler: " << m_scheduler->getName() << "\n";
 
     while (m_current_time < m_max_ticks){
         std::cout << "[Tick: " << m_current_time << "]\n";
@@ -44,5 +44,5 @@ void SimulationEngine::run(){
         m_current_time++;
     }
 
-    std::cout << "********* Simulation Engine Finished *********\n";
+    std::cout << "********* " << m_scheduler->getName() << " Simulation Engine Finished *********\n";
 }
