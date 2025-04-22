@@ -1,16 +1,11 @@
 #include <TaskController.hpp>
 
-TaskController::TaskController() : m_scheduler(nullptr){
+TaskController::TaskController(){
     m_tasks.clear();
 }
 
 TaskController::~TaskController(){
     m_tasks.clear();
-    m_scheduler.reset();
-}
-
-void TaskController::setScheduler(std::shared_ptr<Scheduler> scheduler){
-    m_scheduler = scheduler;
 }
 
 void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){

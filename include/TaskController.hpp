@@ -1,3 +1,6 @@
+#ifndef TASKCONTROLLER_HPP
+#define TASKCONTROLLER_HPP
+
 #include <iostream>
 #include <memory>
 #include <vector>
@@ -10,8 +13,6 @@ public:
     TaskController(/* args */);
     ~TaskController();
 
-    void setScheduler(std::shared_ptr<Scheduler> scheduler);
-
     void addTask(std::shared_ptr<TaskControlBlock> task);
     void removeTask(int task_id);
     void displayTasks();
@@ -20,5 +21,6 @@ public:
 
 private:
     std::vector<std::shared_ptr<TaskControlBlock>> m_tasks;
-    std::shared_ptr<Scheduler> m_scheduler;
 };
+
+#endif // TASKCONTROLLER_HPP
