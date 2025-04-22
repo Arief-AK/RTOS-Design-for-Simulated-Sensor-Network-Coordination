@@ -1,13 +1,16 @@
 #include <TaskController.hpp>
 
-TaskController::TaskController()
-{
-    // TBA
+TaskController::TaskController() : m_scheduler(nullptr){
+    m_tasks.clear();
 }
 
-TaskController::~TaskController()
-{
-    // TBA
+TaskController::~TaskController(){
+    m_tasks.clear();
+    m_scheduler.reset();
+}
+
+void TaskController::setScheduler(std::shared_ptr<Scheduler> scheduler){
+    m_scheduler = scheduler;
 }
 
 void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){
@@ -34,4 +37,8 @@ void TaskController::displayTasks(){
         std::cout << "Arrival Time: " << tasks->arrival_time << "\n";
         std::cout << std::endl;
     }
+}
+
+std::vector<std::shared_ptr<TaskControlBlock>> TaskController::getTasks(){
+    return m_tasks;
 }

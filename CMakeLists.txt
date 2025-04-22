@@ -16,3 +16,5 @@ include_directories(src)
 # Add the executable target
 add_executable(RTOS_sensor_network ${SOURCES} ${HEADERS})
 
+# Enable warnings
+target_compile_options(RTOS_sensor_network PRIVATE -Wall -Wextra -Wpedantic)
