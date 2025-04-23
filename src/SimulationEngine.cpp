@@ -1,11 +1,7 @@
 #include <SimulationEngine.hpp>
 
 SimulationEngine::SimulationEngine(std::unique_ptr<TaskController> task_controller, std::unique_ptr<Scheduler> scheduler, int max_ticks)
-    : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks)
-{
-    // Initialise tasks from task controller
-    m_task_list = m_task_controller->getTasks();
-}
+    : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks){}
 
 SimulationEngine::~SimulationEngine()
 {
@@ -14,13 +10,15 @@ SimulationEngine::~SimulationEngine()
 
 void SimulationEngine::run(){
     std::cout << "********* " << m_scheduler->getName() << " Simulation Engine Started *********\n";
-    // std::cout << "Using scheduler: " << m_scheduler->getName() << "\n";
 
     while (m_current_time < m_max_ticks){
         std::cout << "[Tick: " << m_current_time << "]\n";
 
         // Organise tasks based on current time
         m_task_controller->organiseTasks(m_current_time);
+
+        // Initialise tasks from task controller
+        m_task_list = m_task_controller->getTasks();
 
         // Select task
         auto task = m_scheduler->selectTask(m_task_list);
