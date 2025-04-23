@@ -3,8 +3,7 @@
 SimulationEngine::SimulationEngine(std::unique_ptr<TaskController> task_controller, std::unique_ptr<Scheduler> scheduler, int max_ticks)
     : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks){}
 
-SimulationEngine::~SimulationEngine()
-{
+SimulationEngine::~SimulationEngine(){
     m_task_controller.reset();
 }
 
@@ -18,7 +17,7 @@ void SimulationEngine::run(){
         m_task_controller->organiseTasks(m_current_time);
 
         // Initialise tasks from task controller
-        m_task_list = m_task_controller->getTasks();
+        m_task_list = m_task_controller->getReadyTasks();
 
         // Select task
         auto task = m_scheduler->selectTask(m_task_list);
@@ -38,6 +37,7 @@ void SimulationEngine::run(){
             if(task->remaining_time <= 0){
                 task->status = TaskStatus::COMPLETED;
                 task->finish_time = m_current_time + 1; // Finish time is the next tick
+                m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
                 std::cout << "Task ID: " << task->task_id << " completed at tick: " << m_current_time << "\n";
             }else{
                 task->status = TaskStatus::READY;
@@ -103,4 +103,8 @@ void SimulationEngine::printStatistics() const{
     std::cout << "Average Waiting Time: " << avg_waiting_time << "\n";
     std::cout << "CPU Utilization: " << cpu_utilization << "%\n";
     std::cout << "Task completion ratio: " << completed_tasks << "/" << m_task_list.size() << "\n";
+}
+
+std::vector<std::shared_ptr<TaskControlBlock>> SimulationEngine::getCompletedTasks() const{
+    return m_task_controller->getCompletedTasks();
 }

@@ -4,7 +4,7 @@
 #include <iostream>
 
 enum class TaskType { PERIODIC, SPORADIC, APERIODIC };
-enum class TaskStatus { READY, RUNNING, BLOCKED, COMPLETED };
+enum class TaskStatus { PENDING, READY, RUNNING, BLOCKED, COMPLETED };
 
 struct TaskControlBlock{
     int task_id;
@@ -32,7 +32,7 @@ struct TaskControlBlock{
         priority(priority),
         arrival_time(arr_time),
         remaining_time(exec_time),
-        status(TaskStatus::READY) {}
+        status(TaskStatus::PENDING) {}
 };
 
 #endif // TASK_CONTROL_BLOCK_HPP

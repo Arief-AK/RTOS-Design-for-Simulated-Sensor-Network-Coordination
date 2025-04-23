@@ -18,11 +18,14 @@ public:
     void removeTask(int task_id);
     void displayTasks();
 
-    std::vector<std::shared_ptr<TaskControlBlock>> getTasks();
+    std::vector<std::shared_ptr<TaskControlBlock>> getPendingTasks();
+    std::vector<std::shared_ptr<TaskControlBlock>> getReadyTasks();
+    std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks();
 
 private:
     std::vector<std::shared_ptr<TaskControlBlock>> m_pending_tasks;
     std::vector<std::shared_ptr<TaskControlBlock>> m_ready_tasks;
+    std::vector<std::shared_ptr<TaskControlBlock>> m_completed_tasks;
 };
 
 #endif // TASKCONTROLLER_HPP

@@ -1,18 +1,42 @@
 #include <TaskController.hpp>
 
 TaskController::TaskController(){
-    m_ready_tasks.clear();
     m_pending_tasks.clear();
+    m_ready_tasks.clear();
+    m_completed_tasks.clear();
 }
 
 TaskController::~TaskController(){
-    m_ready_tasks.clear();
     m_pending_tasks.clear();
+    m_ready_tasks.clear();
+    m_completed_tasks.clear();
 }
 
 void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){
-    // Place in pending tasks
-    m_pending_tasks.push_back(task);
+    // Check if task is null
+    if(!task){
+        std::cerr << "Error: Task is null!" << std::endl;
+        return;
+    }
+    
+    switch (task->status)
+    {
+    case TaskStatus::PENDING:
+        m_pending_tasks.push_back(task);
+        break;
+
+    case TaskStatus::READY:
+        m_ready_tasks.push_back(task);
+        break;
+
+    case TaskStatus::COMPLETED:
+        m_completed_tasks.push_back(task);
+        break;
+    
+    default:
+        std::cerr << "Error: Invalid task status!" << std::endl;
+        break;
+    }
 }
 
 void TaskController::organiseTasks(int current_time){
@@ -50,6 +74,15 @@ void TaskController::displayTasks(){
     }
 }
 
-std::vector<std::shared_ptr<TaskControlBlock>> TaskController::getTasks(){
+std::vector<std::shared_ptr<TaskControlBlock>> TaskController::getPendingTasks(){
+    return m_pending_tasks;
+}
+
+std::vector<std::shared_ptr<TaskControlBlock>> TaskController::getReadyTasks()
+{
     return m_ready_tasks;
+}
+
+std::vector<std::shared_ptr<TaskControlBlock>> TaskController::getCompletedTasks(){
+    return m_completed_tasks;
 }
