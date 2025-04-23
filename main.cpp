@@ -20,6 +20,7 @@ int main(int, char**){
     // Intialise the simulation engine
     SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<RoundRobinScheduler>(2), 10);
     engine.run();
+    engine.printStatistics();
     
     return 0;
 }

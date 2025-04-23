@@ -4,7 +4,7 @@ RoundRobinScheduler::RoundRobinScheduler(int time_quantum)
     : m_time_quantum(time_quantum), m_last_index(0) {}
 
 TaskControlBlock* RoundRobinScheduler::selectTask(
-    std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue, int current_time){
+    std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue){
     // Check if tasks are empty
     if (ready_queue.empty()){
         return nullptr;

@@ -10,7 +10,11 @@ public:
     ~SimulationEngine();
 
     void run();
+    
     int getCurrentTime() const;
+    void printStatistics() const;
+
+    std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks() const;
 
 private:
     std::unique_ptr<TaskController> m_task_controller;

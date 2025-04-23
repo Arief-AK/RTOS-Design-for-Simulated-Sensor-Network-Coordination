@@ -12,7 +12,7 @@ public:
     virtual ~Scheduler() = default;
 
     // Method to select a task to the scheduler
-    virtual TaskControlBlock* selectTask(std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue, int current_time) = 0;
+    virtual TaskControlBlock* selectTask(std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue) = 0;
 
     virtual std::string getName() const = 0;
 };

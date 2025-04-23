@@ -7,7 +7,7 @@ class RoundRobinScheduler: public Scheduler{
 public:
     explicit RoundRobinScheduler(int time_quantum);
 
-    TaskControlBlock* selectTask(std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue, int current_time) override;
+    TaskControlBlock* selectTask(std::vector<std::shared_ptr<TaskControlBlock>> &ready_queue) override;
     std::string getName() const override;
 
 private:
