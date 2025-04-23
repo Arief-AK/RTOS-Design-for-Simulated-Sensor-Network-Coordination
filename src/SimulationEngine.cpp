@@ -19,6 +19,9 @@ void SimulationEngine::run(){
     while (m_current_time < m_max_ticks){
         std::cout << "[Tick: " << m_current_time << "]\n";
 
+        // Organise tasks based on current time
+        m_task_controller->organiseTasks(m_current_time);
+
         // Select task
         auto task = m_scheduler->selectTask(m_task_list);
         

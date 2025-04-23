@@ -14,13 +14,15 @@ public:
     ~TaskController();
 
     void addTask(std::shared_ptr<TaskControlBlock> task);
+    void organiseTasks(int current_time);
     void removeTask(int task_id);
     void displayTasks();
 
     std::vector<std::shared_ptr<TaskControlBlock>> getTasks();
 
 private:
-    std::vector<std::shared_ptr<TaskControlBlock>> m_tasks;
+    std::vector<std::shared_ptr<TaskControlBlock>> m_pending_tasks;
+    std::vector<std::shared_ptr<TaskControlBlock>> m_ready_tasks;
 };
 
 #endif // TASKCONTROLLER_HPP
