@@ -1,9 +1,10 @@
 #include <gtest/gtest.h>
 #include <TaskController.hpp>
 #include <RoundRobinScheduler.hpp>
+#include <PriorityScheduler.hpp>
 #include <SimulationEngine.hpp>
 
-TEST(SchedulerSimulationTest, FiveTaskScenario){
+TEST(RoundRobinSchedulerSimulationTest, FiveScenarioTest){
     std::cout << "********* Five Task Scenario *********\n" << std::endl;    
     
     // Initialise variables
@@ -32,6 +33,43 @@ TEST(SchedulerSimulationTest, FiveTaskScenario){
         EXPECT_EQ(task->status, TaskStatus::COMPLETED);
         EXPECT_EQ(task->remaining_time, 0);
     }
+
+    // Print statistics
+    engine.printStatistics();
+}
+
+TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
+    std::cout << "********* Highest Priority Task Scenario *********\n" << std::endl;
+
+    // Initialise variables
+    TaskController task_controller;
+
+    // Create sample tasks
+    task_controller.addTask(std::make_shared<TaskControlBlock>(1, TaskType::APERIODIC, 0, 3, 5, 3, 0)); // Last
+    task_controller.addTask(std::make_shared<TaskControlBlock>(2, TaskType::APERIODIC, 0, 2, 5, 1, 0)); // Highest priority
+    task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 4, 5, 2, 0)); // Second 
+
+    // Display tasks
+    task_controller.displayTasks();
+
+    // Initialise the simulation engine
+    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 10);
+
+    // Run the simulation
+    engine.run();
+    auto completed_tasks = engine.getCompletedTasks();
+
+    // Iterate through completed tasks
+    for (const auto& task : completed_tasks) {
+        EXPECT_GE(task->finish_time, task->arrival_time);
+        EXPECT_EQ(task->status, TaskStatus::COMPLETED);
+        EXPECT_EQ(task->remaining_time, 0);
+    }
+
+    // Check order of priority
+    EXPECT_EQ(completed_tasks[0]->task_id, 2); // Highest priority task should be completed first
+    EXPECT_EQ(completed_tasks[1]->task_id, 3); // Next highest priority task
+    EXPECT_EQ(completed_tasks[2]->task_id, 1); // Lowest priority task should be completed last
 
     // Print statistics
     engine.printStatistics();

@@ -42,14 +42,21 @@ add_library(scheduler_core_lib
     src/TaskController.cpp
     src/RoundRobinScheduler.cpp
     src/SimulationEngine.cpp
+    src/PriorityScheduler.cpp
 )
 target_include_directories(scheduler_core_lib PUBLIC include)
 
-# Testing Strategy
-add_executable(test_scheduler tests/test_scheduler.cpp)
-target_link_libraries(test_scheduler
+# Testing executables
+add_executable(test_round_robin_scheduler tests/test_scheduler.cpp)
+target_link_libraries(test_round_robin_scheduler
     GTest::gtest_main
     scheduler_core_lib
 )
+add_test(NAME RoundRobinSchedulerTest COMMAND test_round_robin_scheduler)
 
-add_test(NAME SchedulerTest COMMAND test_scheduler)
+add_executable(test_priority_scheduler tests/test_scheduler.cpp)
+target_link_libraries(test_priority_scheduler
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME PrioritySchedulerTest COMMAND test_priority_scheduler)
