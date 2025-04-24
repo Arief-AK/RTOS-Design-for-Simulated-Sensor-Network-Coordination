@@ -10,6 +10,7 @@ int main(int, char**){
     TaskController task_controller;
     
     // Create sample tasks
+    // Parameters: (id, type, period, execution_time, deadline, priority, arrival_time)
     task_controller.addTask(std::make_shared<TaskControlBlock>(1, TaskType::PERIODIC, 10, 3, 10, 1, 0));
     task_controller.addTask(std::make_shared<TaskControlBlock>(2, TaskType::SPORADIC, 0, 2, 7, 2, 0));
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 1, 0, 3, 0));
