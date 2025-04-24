@@ -1,7 +1,9 @@
 #include <SimulationEngine.hpp>
 
 SimulationEngine::SimulationEngine(std::unique_ptr<TaskController> task_controller, std::unique_ptr<Scheduler> scheduler, int max_ticks)
-    : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks){}
+    : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks){
+        m_resource = std::make_shared<Resource>(1);
+    }
 
 SimulationEngine::~SimulationEngine(){
     m_task_controller.reset();
@@ -23,22 +25,36 @@ void SimulationEngine::run(){
         auto task = m_scheduler->selectTask(m_task_list);
         
         // Update task status
-        if(task){
+        if(task && task->status != TaskStatus::BLOCKED){
             std::cout << "Selected Task ID: " << task->task_id << "\n";
+
+            if(task->requires_resource){
+                auto acquired = m_resource->lock(std::make_shared<TaskControlBlock>(*task));
+                if(!acquired){
+                    std::cout << "Task ID: " << task->task_id << " blocked due to resource unavailability.\n";
+                    continue; // Skip to next tick
+                }
+            }
 
             if(task->start_time == -1){
                 task->start_time = m_current_time;
                 task->status = TaskStatus::RUNNING;
             }
 
-            // Simulate tick of execution
             task->remaining_time--;
 
             if(task->remaining_time <= 0){
                 task->status = TaskStatus::COMPLETED;
                 task->finish_time = m_current_time + 1; // Finish time is the next tick
+
                 m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
                 std::cout << "Task ID: " << task->task_id << " completed at tick: " << m_current_time << "\n";
+
+                
+                if(task->requires_resource && m_resource->isLockedBy(std::make_shared<TaskControlBlock>(*task))){
+                    m_resource->unlock(std::make_shared<TaskControlBlock>(*task));
+                    std::cout << "Task ID: " << task->task_id << " released the resource.\n";
+                }
             }else{
                 task->status = TaskStatus::READY;
             }

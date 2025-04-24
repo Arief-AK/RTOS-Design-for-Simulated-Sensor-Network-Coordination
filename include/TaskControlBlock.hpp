@@ -17,6 +17,7 @@ struct TaskControlBlock{
     int start_time = -1;
     int finish_time = -1;
     int remaining_time;
+    bool requires_resource = false;
     TaskStatus status;
 
     // Constructor

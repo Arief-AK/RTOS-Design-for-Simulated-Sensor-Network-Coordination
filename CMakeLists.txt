@@ -42,6 +42,7 @@ endif()
 add_library(scheduler_core_lib
     src/TaskController.cpp
     src/RoundRobinScheduler.cpp
+    src/Resource.cpp
     src/SimulationEngine.cpp
     src/PriorityScheduler.cpp
 )

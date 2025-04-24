@@ -74,3 +74,28 @@ TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
     // Print statistics
     engine.printStatistics();
 }
+
+TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
+    std::cout << "********* Priority Inversion Scenario *********\n" << std::endl;
+
+    // Initialise variables
+    TaskController task_controller;
+
+    // ID, Type, Period, Execution, Deadline, Priority, Arrival
+    task_controller.addTask(std::make_shared<TaskControlBlock>(1, TaskType::APERIODIC, 0, 5, 10, 1, 1)); // Low priority
+    task_controller.addTask(std::make_shared<TaskControlBlock>(2, TaskType::APERIODIC, 0, 4, 10, 2, 2)); // Medium priority
+    task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 3, 10, 3, 3)); // High priority
+
+    // Display tasks
+    task_controller.displayTasks();
+
+    // Initialise the simulation engine
+    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 10);
+
+    // Run the simulation
+    engine.run();
+    auto completed_tasks = engine.getCompletedTasks();
+
+    // Print statistics
+    engine.printStatistics();
+}
