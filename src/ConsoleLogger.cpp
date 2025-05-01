@@ -1,6 +1,9 @@
 #include <ConsoleLogger.hpp>
 
-ConsoleLogger::ConsoleLogger(std::string name) : m_logger_name(name) {}
+ConsoleLogger::ConsoleLogger(std::string name) : m_logger_name(name), m_file_path("../logs/") {
+    // Create logs directory if it doesn't exist
+    std::filesystem::create_directories(m_file_path);
+}
 
 ConsoleLogger::~ConsoleLogger()
 {
@@ -15,7 +18,7 @@ void ConsoleLogger::log(const std::string &message){
 
 void ConsoleLogger::logToFile(const std::string &message){
     // Create a default file name
-    m_file_name = m_logger_name + ".log";
+    m_file_name = m_file_path + m_logger_name + ".log";
     
     if(!m_file_stream.is_open()){
         m_file_stream.open(m_file_name, std::ios::app);
@@ -42,4 +45,8 @@ void ConsoleLogger::logToFile(const std::string &message, const std::string &fil
 
     m_file_stream << m_logger_name << ": " << message << std::endl;
     m_file_stream.close();
+}
+
+std::string ConsoleLogger::getLoggerName() const{
+    return m_logger_name;
 }

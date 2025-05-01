@@ -12,6 +12,9 @@ public:
 
     void analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list);
     void reset();
+
+    void incrementContextSwitchCount();
+    void incrementCpuIdleTime();
     
     void printReport(bool to_file = false);
 
@@ -27,9 +30,6 @@ private:
 
     std::string m_report_name;
     std::shared_ptr<Logger> m_logger;
-
-    void incrementContextSwitchCount();
-    void incrementCpuIdleTime();
 };
 
 #endif // METRICS_COLLECTOR_HPP

@@ -16,7 +16,11 @@ TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 4, 5, 2, 0)); // Second 
 
     // Initialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 10);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<PriorityScheduler>(),
+        std::make_shared<ConsoleLogger>("Test_PrioritySchedulerTest"),
+        10);
 
     // Run the simulation
     engine.run();
@@ -54,7 +58,11 @@ TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
     task_controller.addTask(high);
 
     // Initialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 15);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<PriorityScheduler>(),
+        std::make_shared<ConsoleLogger>("Test_PrioritySchedulerTest"),
+        15);
 
     // Run the simulation
     engine.run();

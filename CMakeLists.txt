@@ -45,6 +45,8 @@ add_library(scheduler_core_lib
     src/Resource.cpp
     src/SimulationEngine.cpp
     src/PriorityScheduler.cpp
+    src/ConsoleLogger.cpp
+    src/MetricsCollector.cpp
 )
 target_include_directories(scheduler_core_lib PUBLIC include)
 

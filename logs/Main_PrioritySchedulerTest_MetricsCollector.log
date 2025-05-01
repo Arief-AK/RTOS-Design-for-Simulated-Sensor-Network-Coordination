@@ -1,0 +1,18 @@
+Main_PrioritySchedulerTest_MetricsCollector: 
+
+************** Metrics Report: **************
+
+Timings:
+	Total Tasks: 3
+	Completed Tasks: 3
+	Deadline Miss Count: 1
+	Average Response Time: 0
+	Average Turnaround Time: 7
+
+CPU Utilisation:
+	Context Switch Count: 4
+	CPU Idle Time: 2
+	CPU Utilisation Time: 13
+
+********************************************
+
