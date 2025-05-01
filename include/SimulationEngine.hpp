@@ -1,6 +1,7 @@
 #ifndef SIMULATION_ENGINE_HPP
 #define SIMULATION_ENGINE_HPP
 
+#include <Resource.hpp>
 #include <Scheduler.hpp>
 #include <TaskController.hpp>
 
@@ -20,6 +21,8 @@ private:
     std::unique_ptr<TaskController> m_task_controller;
     std::unique_ptr<Scheduler> m_scheduler;
     std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
+
+    std::shared_ptr<Resource> m_resource;
 
     int m_current_time;
     int m_max_ticks;

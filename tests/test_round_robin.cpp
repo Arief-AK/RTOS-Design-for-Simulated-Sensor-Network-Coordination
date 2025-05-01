@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <TaskController.hpp>
-#include <RoundRobinScheduler.hpp>
 #include <SimulationEngine.hpp>
+#include <RoundRobinScheduler.hpp>
 
-TEST(SchedulerSimulationTest, FiveTaskScenario){
+TEST(RoundRobinSchedulerSimulationTest, FiveScenarioTest){
     std::cout << "********* Five Task Scenario *********\n" << std::endl;    
     
     // Initialise variables
@@ -15,9 +15,6 @@ TEST(SchedulerSimulationTest, FiveTaskScenario){
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 1, 0, 3, 4));
     task_controller.addTask(std::make_shared<TaskControlBlock>(4, TaskType::SPORADIC, 0, 2, 6, 4, 5));
     task_controller.addTask(std::make_shared<TaskControlBlock>(5, TaskType::PERIODIC, 10, 2, 10, 5, 6));
-
-    // Display tasks
-    task_controller.displayTasks();
 
     // Intialise the simulation engine
     SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<RoundRobinScheduler>(2), 15);
