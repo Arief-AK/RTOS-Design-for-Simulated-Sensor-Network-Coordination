@@ -13,10 +13,13 @@ struct TaskControlBlock{
     int execution_time;
     int deadline;
     int priority;
+    int base_priority;
+    int dynamic_priority;
     int arrival_time;
     int start_time = -1;
     int finish_time = -1;
     int remaining_time;
+    bool requires_resource = false;
     TaskStatus status;
 
     // Constructor
@@ -30,6 +33,8 @@ struct TaskControlBlock{
         execution_time(exec_time),
         deadline(deadline),
         priority(priority),
+        base_priority(priority),
+        dynamic_priority(priority),
         arrival_time(arr_time),
         remaining_time(exec_time),
         status(TaskStatus::PENDING) {}
