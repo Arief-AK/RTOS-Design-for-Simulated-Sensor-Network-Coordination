@@ -9,9 +9,11 @@ A C++ implementation of a real-time operating system (RTOS) simulation for coord
 This project simulates a real-time operating system designed for sensor network coordination. It implements core RTOS components including:
 
 - Round-robin scheduler
-- Message queue system
+- Priority scheduler
 - Task control and management
 - Logging functionality
+- Message distribution framework (In progress)
+- Message queue system (In progress)
 
 ## Building the Project
 
