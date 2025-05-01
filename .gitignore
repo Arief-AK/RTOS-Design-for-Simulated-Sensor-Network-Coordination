@@ -58,6 +58,7 @@ CMakeUserPresets.json
 *.bkp
 
 # Directories
+logs/
 build/
 .vscode/
 
