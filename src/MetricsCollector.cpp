@@ -75,3 +75,11 @@ void MetricsCollector::printReport(bool to_file){
         return;
     }    
 }
+
+void MetricsCollector::incrementContextSwitchCount(){
+    m_context_switch_count++;
+}
+
+void MetricsCollector::incrementCpuIdleTime(){
+    m_cpu_idle_time++;
+}
