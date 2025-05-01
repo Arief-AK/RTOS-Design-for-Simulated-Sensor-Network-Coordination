@@ -12,13 +12,13 @@ TaskControlBlock *PriorityScheduler::selectTask(
     // Iterate through thee tasks
     for (const auto& task : ready_queue){
         if (task->status == TaskStatus::READY){
-            if(!selected_task || task->priority < selected_task->priority){
+            if(!selected_task || task->dynamic_priority < selected_task->dynamic_priority){
                 selected_task = task;
             }
         }
     }
 
-    return selected_task.get();
+    return selected_task ? selected_task.get() : nullptr;
 }
 
 std::string PriorityScheduler::getName() const{
