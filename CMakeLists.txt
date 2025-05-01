@@ -49,14 +49,14 @@ add_library(scheduler_core_lib
 target_include_directories(scheduler_core_lib PUBLIC include)
 
 # Testing executables
-add_executable(test_round_robin_scheduler tests/test_scheduler.cpp)
+add_executable(test_round_robin_scheduler tests/test_round_robin.cpp)
 target_link_libraries(test_round_robin_scheduler
     GTest::gtest_main
     scheduler_core_lib
 )
 add_test(NAME RoundRobinSchedulerTest COMMAND test_round_robin_scheduler)
 
-add_executable(test_priority_scheduler tests/test_scheduler.cpp)
+add_executable(test_priority_scheduler tests/test_priority.cpp)
 target_link_libraries(test_priority_scheduler
     GTest::gtest_main
     scheduler_core_lib
