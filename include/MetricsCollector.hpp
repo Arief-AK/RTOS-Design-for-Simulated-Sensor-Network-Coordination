@@ -10,17 +10,19 @@ public:
     MetricsCollector(const std::string report_name, std::shared_ptr<Logger> logger);
     ~MetricsCollector();
 
-    void analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list);
+    void analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list, int current_time);
     void reset();
 
     void incrementContextSwitchCount();
     void incrementCpuIdleTime();
+    void setCurrentTime(int current_time);
     
     void printReport(bool to_file = false);
 
 private:
     int m_total_tasks;
     int m_completed_tasks;
+    int m_incomplete_tasks;
     int m_deadline_miss_count;
     int m_total_response_time;
     int m_total_turnaround_time;

@@ -18,7 +18,6 @@ public:
     void run();
     
     int getCurrentTime() const;
-    void printStatistics() const;
 
     std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks() const;
 

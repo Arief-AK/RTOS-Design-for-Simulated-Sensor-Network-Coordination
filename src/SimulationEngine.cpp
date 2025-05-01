@@ -92,7 +92,7 @@ void SimulationEngine::run(){
     }
 
     // Analyse and print report
-    m_metrics_collector->analyseTaskCompletion(m_task_controller->getCompletedTasks());
+    m_metrics_collector->analyseTaskCompletion(m_task_controller->getCompletedTasks(), m_current_time);
     m_metrics_collector->printReport(true);
 
     m_logger->log("\n********* " + m_scheduler->getName() + " Simulation Engine Finished *********");
@@ -100,54 +100,6 @@ void SimulationEngine::run(){
 
 int SimulationEngine::getCurrentTime() const{
     return m_current_time;
-}
-
-void SimulationEngine::printStatistics() const{
-    std::cout << "********* Task Statistics *********\n";
-
-    // Initialise timing variables
-    auto total_turnaround = 0;
-    auto total_waiting_time = 0;
-    auto completed_tasks = 0;
-    auto cpu_time = 0;
-
-    // Iterate through tasks and calculate statistics
-    for(const auto& task : m_task_list){
-        // Check for unfinished tasks
-        if(task->finish_time == -1){
-            std::cout << "Task ID: " << task->task_id << " is still running.\n";
-            continue;
-        }
-
-        // Initialise interim timing variables
-        int turnaround = task->finish_time - task->arrival_time;
-        int waiting_time = turnaround - task->execution_time;
-
-        // Update total timing variables
-        total_turnaround += turnaround;
-        total_waiting_time += waiting_time;
-        cpu_time += task->execution_time;
-        completed_tasks++;
-
-        std::cout << "Task ID: " << task->task_id
-            << "\n\t" << "Start Time: " << task->start_time
-            << "\n\t" << "Finish Time: " << task->finish_time
-            << "\n\t" << "Remaining Time: " << task->remaining_time
-            << "\n\t" << "Turnaround Time: " << turnaround
-            << "\n\t" << "Waiting Time: " << waiting_time;
-        std::cout << "---------------------------------\n";
-    }
-
-    // Calculate and display averages
-    auto avg_turnaround = completed_tasks > 0 ? static_cast<double>(total_turnaround) / completed_tasks : 0.0;
-    auto avg_waiting_time = completed_tasks > 0 ? static_cast<double>(total_waiting_time) / completed_tasks : 0.0;
-    auto cpu_utilization = static_cast<double>(cpu_time) / m_current_time * 100.0;
-
-    // Print statistics
-    std::cout << "Average Turnaround Time: " << avg_turnaround << "\n";
-    std::cout << "Average Waiting Time: " << avg_waiting_time << "\n";
-    std::cout << "CPU Utilization: " << cpu_utilization << "%\n";
-    std::cout << "Task completion ratio: " << completed_tasks << "/" << m_task_list.size() << "\n";
 }
 
 std::vector<std::shared_ptr<TaskControlBlock>> SimulationEngine::getCompletedTasks() const{

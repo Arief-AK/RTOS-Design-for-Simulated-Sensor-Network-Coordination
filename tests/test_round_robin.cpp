@@ -33,7 +33,4 @@ TEST(RoundRobinSchedulerSimulationTest, FiveScenarioTest){
         EXPECT_EQ(task->status, TaskStatus::COMPLETED);
         EXPECT_EQ(task->remaining_time, 0);
     }
-
-    // Print statistics
-    engine.printStatistics();
 }

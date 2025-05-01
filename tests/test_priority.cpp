@@ -37,9 +37,6 @@ TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
     EXPECT_EQ(completed_tasks[0]->task_id, 2); // Highest priority task should be completed first
     EXPECT_EQ(completed_tasks[1]->task_id, 3); // Next highest priority task
     EXPECT_EQ(completed_tasks[2]->task_id, 1); // Lowest priority task should be completed last
-
-    // Print statistics
-    engine.printStatistics();
 }
 
 TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
@@ -84,7 +81,4 @@ TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
     EXPECT_GT(completed_tasks[2]->finish_time - completed_tasks[2]->arrival_time,
               completed_tasks[2]->execution_time + completed_tasks[1]->execution_time)
         << "High priority task should take longer due to priority inversion";
-
-    // Print statistics
-    engine.printStatistics();
 }

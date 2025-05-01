@@ -33,9 +33,6 @@ int main(int, char**){
     // Run the simulation
     engine.run();
     auto completed_tasks = engine.getCompletedTasks();
-
-    // Print statistics
-    //engine.printStatistics();
     
     return 0;
 }
