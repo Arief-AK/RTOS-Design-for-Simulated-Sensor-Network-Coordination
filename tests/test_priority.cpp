@@ -16,7 +16,11 @@ TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::APERIODIC, 0, 4, 5, 2, 0)); // Second 
 
     // Initialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 10);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<PriorityScheduler>(),
+        std::make_shared<ConsoleLogger>("Test_PrioritySchedulerTest"),
+        10);
 
     // Run the simulation
     engine.run();
@@ -33,9 +37,6 @@ TEST(PrioritySchedulerSimulationTest, HighestPriorityTask){
     EXPECT_EQ(completed_tasks[0]->task_id, 2); // Highest priority task should be completed first
     EXPECT_EQ(completed_tasks[1]->task_id, 3); // Next highest priority task
     EXPECT_EQ(completed_tasks[2]->task_id, 1); // Lowest priority task should be completed last
-
-    // Print statistics
-    engine.printStatistics();
 }
 
 TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
@@ -54,7 +55,11 @@ TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
     task_controller.addTask(high);
 
     // Initialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 15);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<PriorityScheduler>(),
+        std::make_shared<ConsoleLogger>("Test_PrioritySchedulerTest"),
+        15);
 
     // Run the simulation
     engine.run();
@@ -76,7 +81,4 @@ TEST(PrioritySchedulerSimulationTest, PriorityInversionScenario){
     EXPECT_GT(completed_tasks[2]->finish_time - completed_tasks[2]->arrival_time,
               completed_tasks[2]->execution_time + completed_tasks[1]->execution_time)
         << "High priority task should take longer due to priority inversion";
-
-    // Print statistics
-    engine.printStatistics();
 }

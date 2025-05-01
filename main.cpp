@@ -24,14 +24,15 @@ int main(int, char**){
     task_controller.displayTasks();
 
     // Initialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<PriorityScheduler>(), 11);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<PriorityScheduler>(),
+        std::make_shared<ConsoleLogger>("Main_PrioritySchedulerTest"),
+        15);
 
     // Run the simulation
     engine.run();
     auto completed_tasks = engine.getCompletedTasks();
-
-    // Print statistics
-    engine.printStatistics();
     
     return 0;
 }

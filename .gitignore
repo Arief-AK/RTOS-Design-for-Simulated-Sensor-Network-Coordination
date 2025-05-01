@@ -35,6 +35,9 @@
 *.out
 *.app
 
+# Log files
+*.log
+
 ### CMake ###
 CMakeLists.txt.user
 CMakeCache.txt
@@ -59,6 +62,7 @@ CMakeUserPresets.json
 
 # Directories
 build/
+logs/
 .vscode/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake

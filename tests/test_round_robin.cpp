@@ -17,7 +17,11 @@ TEST(RoundRobinSchedulerSimulationTest, FiveScenarioTest){
     task_controller.addTask(std::make_shared<TaskControlBlock>(5, TaskType::PERIODIC, 10, 2, 10, 5, 6));
 
     // Intialise the simulation engine
-    SimulationEngine engine(std::make_unique<TaskController>(task_controller), std::make_unique<RoundRobinScheduler>(2), 15);
+    SimulationEngine engine(
+        std::make_unique<TaskController>(task_controller),
+        std::make_unique<RoundRobinScheduler>(2),
+        std::make_shared<ConsoleLogger>("Test_RoundRobinSchedulerTest"),
+        15);
 
     // Run the simulation
     engine.run();
@@ -29,7 +33,4 @@ TEST(RoundRobinSchedulerSimulationTest, FiveScenarioTest){
         EXPECT_EQ(task->status, TaskStatus::COMPLETED);
         EXPECT_EQ(task->remaining_time, 0);
     }
-
-    // Print statistics
-    engine.printStatistics();
 }

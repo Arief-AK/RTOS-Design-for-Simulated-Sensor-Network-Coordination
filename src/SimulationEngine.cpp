@@ -1,7 +1,18 @@
 #include <SimulationEngine.hpp>
 
-SimulationEngine::SimulationEngine(std::unique_ptr<TaskController> task_controller, std::unique_ptr<Scheduler> scheduler, int max_ticks)
-    : m_task_controller(std::move(task_controller)), m_scheduler(std::move(scheduler)), m_current_time(0), m_max_ticks(max_ticks){
+SimulationEngine::SimulationEngine(
+    std::unique_ptr<TaskController> task_controller,
+    std::unique_ptr<Scheduler> scheduler,
+    std::shared_ptr<Logger> logger,
+    int max_ticks
+    ): m_task_controller(std::move(task_controller)),
+        m_scheduler(std::move(scheduler)),
+        m_logger(std::move(logger)),
+        m_current_time(0),
+        m_max_ticks(max_ticks)
+    {
+        auto logger_name = m_logger->getLoggerName();
+        m_metrics_collector = std::make_unique<MetricsCollector>("SimulationEngine", std::make_shared<ConsoleLogger>(logger_name + "_MetricsCollector"));
         m_resource = std::make_shared<Resource>(1);
     }
 
@@ -10,15 +21,16 @@ SimulationEngine::~SimulationEngine(){
 }
 
 void SimulationEngine::run(){
-    std::cout << "********* " << m_scheduler->getName() << " Simulation Engine Started *********\n";
+    m_logger->log("\n\n********* " + m_scheduler->getName() + " Simulation Engine Started *********");
 
+    // Initialise previous task
+    TaskControlBlock* previous_task = nullptr;
+    
     while (m_current_time < m_max_ticks){
-        std::cout << "[Tick: " << m_current_time << "]\n";
+        m_logger->log("Tick: " + std::to_string(m_current_time));
 
-        // Organise tasks based on current time
+        // Organise tasks and get the ready list
         m_task_controller->organiseTasks(m_current_time);
-
-        // Initialise tasks from task controller
         m_task_list = m_task_controller->getReadyTasks();
 
         // Select task
@@ -26,99 +38,68 @@ void SimulationEngine::run(){
         
         // Update task status
         if(task && task->status != TaskStatus::BLOCKED){
-            std::cout << "Selected Task ID: " << task->task_id << "\n";
+            m_logger->log("Selected Task ID: " + std::to_string(task->task_id));
 
-            if(task->requires_resource){
-                auto acquired = m_resource->lock(std::make_shared<TaskControlBlock>(*task));
-                if(!acquired){
-                    std::cout << "Task ID: " << task->task_id << " blocked due to resource unavailability.\n";
-                    continue; // Skip to next tick
+            // Context switch tracking
+            if (previous_task && previous_task != task) {
+                m_metrics_collector->incrementContextSwitchCount();
+            }
+            previous_task = task;
+
+            // Resource acquisition
+            if (task->requires_resource) {
+                bool acquired = m_resource->lock(std::make_shared<TaskControlBlock>(*task));
+                if (!acquired) {
+                    m_logger->log("Task ID: " + std::to_string(task->task_id) + " blocked due to resource unavailability.");
+                    task->status = TaskStatus::BLOCKED;
+                    m_current_time++;
+                    continue;
                 }
             }
 
+            // Set start time if first run
             if(task->start_time == -1){
                 task->start_time = m_current_time;
                 task->status = TaskStatus::RUNNING;
             }
 
+            // Simulate task execution
             task->remaining_time--;
 
             if(task->remaining_time <= 0){
                 task->status = TaskStatus::COMPLETED;
                 task->finish_time = m_current_time + 1; // Finish time is the next tick
 
-                m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
-                std::cout << "Task ID: " << task->task_id << " completed at tick: " << m_current_time << "\n";
-
-                
+                // Release resource if held
                 if(task->requires_resource && m_resource->isLockedBy(std::make_shared<TaskControlBlock>(*task))){
                     m_resource->unlock(std::make_shared<TaskControlBlock>(*task));
-                    std::cout << "Task ID: " << task->task_id << " released the resource.\n";
+                    m_logger->log("Task ID: " + std::to_string(task->task_id) + " released the resource.");
                 }
+
+                // Re-register task for metrics analysis
+                m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
             }else{
                 task->status = TaskStatus::READY;
             }
         }else{
-            std::cout << "No task selected for execution at tick: " << m_current_time << "\n";
+            m_logger->log("No task selected for execution at tick: " + std::to_string(m_current_time));
+            m_metrics_collector->incrementCpuIdleTime();
+            previous_task = nullptr;
         }
 
         // Update current time
         m_current_time++;
     }
 
-    std::cout << "********* " << m_scheduler->getName() << " Simulation Engine Finished *********\n";
+    // Analyse and print report
+    m_metrics_collector->analyseTaskCompletion(m_task_controller->getCompletedTasks(), m_current_time);
+    m_metrics_collector->printReport(true);
+
+    m_logger->log("\n********* " + m_scheduler->getName() + " Simulation Engine Finished *********");
 }
 
 int SimulationEngine::getCurrentTime() const{
     return m_current_time;
-}
-
-void SimulationEngine::printStatistics() const{
-    std::cout << "********* Task Statistics *********\n";
-
-    // Initialise timing variables
-    auto total_turnaround = 0;
-    auto total_waiting_time = 0;
-    auto completed_tasks = 0;
-    auto cpu_time = 0;
-
-    // Iterate through tasks and calculate statistics
-    for(const auto& task : m_task_list){
-        // Check for unfinished tasks
-        if(task->finish_time == -1){
-            std::cout << "Task ID: " << task->task_id << " is still running.\n";
-            continue;
-        }
-
-        // Initialise interim timing variables
-        int turnaround = task->finish_time - task->arrival_time;
-        int waiting_time = turnaround - task->execution_time;
-
-        // Update total timing variables
-        total_turnaround += turnaround;
-        total_waiting_time += waiting_time;
-        cpu_time += task->execution_time;
-        completed_tasks++;
-
-        std::cout << "Task ID: " << task->task_id
-            << "\n\t" << "Start Time: " << task->start_time
-            << "\n\t" << "Finish Time: " << task->finish_time
-            << "\n\t" << "Remaining Time: " << task->remaining_time
-            << "\n\t" << "Turnaround Time: " << turnaround
-            << "\n\t" << "Waiting Time: " << waiting_time;
-        std::cout << "---------------------------------\n";
-    }
-
-    // Calculate and display averages
-    auto avg_turnaround = completed_tasks > 0 ? static_cast<double>(total_turnaround) / completed_tasks : 0.0;
-    auto avg_waiting_time = completed_tasks > 0 ? static_cast<double>(total_waiting_time) / completed_tasks : 0.0;
-    auto cpu_utilization = static_cast<double>(cpu_time) / m_current_time * 100.0;
-
-    // Print statistics
-    std::cout << "Average Turnaround Time: " << avg_turnaround << "\n";
-    std::cout << "Average Waiting Time: " << avg_waiting_time << "\n";
-    std::cout << "CPU Utilization: " << cpu_utilization << "%\n";
-    std::cout << "Task completion ratio: " << completed_tasks << "/" << m_task_list.size() << "\n";
 }
 
 std::vector<std::shared_ptr<TaskControlBlock>> SimulationEngine::getCompletedTasks() const{
