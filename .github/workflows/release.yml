@@ -1,0 +1,50 @@
+name: Release
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup CMake caching
+        uses: actions/cache@v4
+        with:
+            # Cache the CMake build directory
+            path: build
+            key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeLists.txt') }}
+            restore-keys: |
+                ${{ runner.os }}-cmake-
+
+      # Build the applications
+      - name: Build with CMake
+        run: |
+            cd /home/runner/work/OpenCL-Development-Real-time-Image-Processing/OpenCL-Development-Real-time-Image-Processing/
+            mkdir -p build
+            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+            cd build
+            make
+
+      # Create a tar.gz archive of the build folder
+      - name: Create tar.gz archive
+        run: |
+            tar -czf build.tar.gz -C build .
+
+      # Create a zip archive of the build folder
+      - name: Create zip archive
+        run: |
+            zip -r build.zip build/
+
+      # Publish the release
+      - name: Release
+        uses: softprops/action-gh-release@v2.2.1
+        with:
+            files: |
+                ./build.zip
+                ./build.tar.gz
+        env:
+            GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
