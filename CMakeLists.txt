@@ -47,6 +47,7 @@ add_library(scheduler_core_lib
     src/PriorityScheduler.cpp
     src/ConsoleLogger.cpp
     src/MetricsCollector.cpp
+    src/EDFScheduler.cpp
 )
 target_include_directories(scheduler_core_lib PUBLIC include)
 
@@ -64,3 +65,10 @@ target_link_libraries(test_priority_scheduler
     scheduler_core_lib
 )
 add_test(NAME PrioritySchedulerTest COMMAND test_priority_scheduler)
+
+add_executable(test_edf_scheduler tests/test_edf.cpp)
+target_link_libraries(test_edf_scheduler
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME EDFSchedulerTest COMMAND test_edf_scheduler)
