@@ -76,6 +76,25 @@ void SimulationEngine::run(){
                     m_logger->log("Task ID: " + std::to_string(task->task_id) + " released the resource.");
                 }
 
+                // Re-register periodic tasks for next period
+                if(task->task_type == TaskType::PERIODIC) {
+                    auto next_task = std::make_shared<TaskControlBlock>(
+                        task->task_id,
+                        task->task_type, 
+                        task->period,
+                        task->execution_time,
+                        task->deadline,
+                        task->priority,
+                        task->arrival_time + task->period
+                    );
+                    if(next_task->arrival_time < m_max_ticks) {
+                        next_task->status = TaskStatus::PENDING;
+                        m_task_controller->addTask(next_task);
+                        m_logger->log("Re-registered periodic task ID: " + std::to_string(task->task_id) + 
+                                     " for next period at tick: " + std::to_string(next_task->arrival_time));
+                    }
+                }
+
                 // Re-register task for metrics analysis
                 m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
             }else{
