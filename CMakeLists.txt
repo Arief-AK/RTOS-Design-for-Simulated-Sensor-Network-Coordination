@@ -79,3 +79,10 @@ target_link_libraries(test_scheduler_sanity
     scheduler_core_lib
 )
 add_test(NAME SchedulerSanityTest COMMAND test_scheduler_sanity)
+
+add_executable(test_scheduler_context_switch tests/test_scheduler_context_switch.cpp)
+target_link_libraries(test_scheduler_context_switch
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerContextSwitchTest COMMAND test_scheduler_context_switch)

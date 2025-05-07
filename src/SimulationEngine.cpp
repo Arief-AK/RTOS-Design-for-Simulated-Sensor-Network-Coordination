@@ -121,6 +121,10 @@ int SimulationEngine::getCurrentTime() const{
     return m_current_time;
 }
 
+int SimulationEngine::getContextSwitchCount() const{
+    return m_metrics_collector->getContextSwitchCount();
+}
+
 std::vector<std::shared_ptr<TaskControlBlock>> SimulationEngine::getCompletedTasks() const{
     return m_task_controller->getCompletedTasks();
 }

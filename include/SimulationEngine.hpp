@@ -18,8 +18,10 @@ public:
     void run();
     
     int getCurrentTime() const;
+    int getContextSwitchCount() const;
 
     std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks() const;
+
 
 private:
     std::unique_ptr<TaskController> m_task_controller;

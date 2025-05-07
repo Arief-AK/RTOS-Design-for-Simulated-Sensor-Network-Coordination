@@ -95,3 +95,7 @@ void MetricsCollector::incrementContextSwitchCount(){
 void MetricsCollector::incrementCpuIdleTime(){
     m_cpu_idle_time++;
 }
+
+int MetricsCollector::getContextSwitchCount() const{
+    return m_context_switch_count;
+}

@@ -14,6 +14,8 @@ public:
     void reset();
 
     void incrementContextSwitchCount();
+    int getContextSwitchCount() const;
+
     void incrementCpuIdleTime();
     void setCurrentTime(int current_time);
     
