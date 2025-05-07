@@ -72,3 +72,10 @@ target_link_libraries(test_edf_scheduler
     scheduler_core_lib
 )
 add_test(NAME EDFSchedulerTest COMMAND test_edf_scheduler)
+
+add_executable(test_all_schedulers tests/test_schedulers.cpp)
+target_link_libraries(test_all_schedulers
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerComparisonTest COMMAND test_all_schedulers)
