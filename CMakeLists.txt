@@ -73,9 +73,9 @@ target_link_libraries(test_edf_scheduler
 )
 add_test(NAME EDFSchedulerTest COMMAND test_edf_scheduler)
 
-add_executable(test_all_schedulers tests/test_schedulers.cpp)
-target_link_libraries(test_all_schedulers
+add_executable(test_scheduler_sanity tests/test_scheduler_sanity.cpp)
+target_link_libraries(test_scheduler_sanity
     GTest::gtest_main
     scheduler_core_lib
 )
-add_test(NAME SchedulerComparisonTest COMMAND test_all_schedulers)
+add_test(NAME SchedulerSanityTest COMMAND test_scheduler_sanity)
