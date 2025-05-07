@@ -7,6 +7,12 @@
 
 #include <TaskControlBlock.hpp>
 
+enum class SchedulerType {
+    ROUND_ROBIN,
+    PRIORITY,
+    EDF
+};
+
 class Scheduler{
 public:
     virtual ~Scheduler() = default;
