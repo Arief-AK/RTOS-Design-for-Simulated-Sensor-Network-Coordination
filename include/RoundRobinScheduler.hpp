@@ -1,6 +1,7 @@
 #ifndef ROUNDROBIN_SCHEDULER_HPP
 #define ROUNDROBIN_SCHEDULER_HPP
 
+#include <limits>
 #include <Scheduler.hpp>
 
 class RoundRobinScheduler: public Scheduler{
