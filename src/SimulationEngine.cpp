@@ -64,49 +64,51 @@ void SimulationEngine::run(){
             }
 
             // Simulate task execution
-            task->remaining_time--;
+            if(task->remaining_time > 0){
+                task->remaining_time--;
+                task->status = TaskStatus::RUNNING;
+                
+                // Check if task completes after this execution
+                if(task->remaining_time == 0){
+                    task->status = TaskStatus::COMPLETED;
+                    task->finish_time = m_current_time + 1; // Complete at end of this tick
 
-            if(task->remaining_time <= 0){
-                task->status = TaskStatus::COMPLETED;
-                task->finish_time = m_current_time + 1; // Finish time is the next tick
-
-                // Release resource if held
-                if(task->requires_resource && m_resource->isLockedBy(std::make_shared<TaskControlBlock>(*task))){
-                    m_resource->unlock(std::make_shared<TaskControlBlock>(*task));
-                    m_logger->log("Task ID: " + std::to_string(task->task_id) + " released the resource.");
-                }
-
-                // Re-register periodic tasks for next period
-                if(task->task_type == TaskType::PERIODIC) {
-                    auto next_task = std::make_shared<TaskControlBlock>(
-                        task->task_id,
-                        task->task_type, 
-                        task->period,
-                        task->execution_time,
-                        task->deadline,
-                        task->priority,
-                        task->arrival_time + task->period
-                    );
-                    if(next_task->arrival_time < m_max_ticks) {
-                        next_task->status = TaskStatus::PENDING;
-                        m_task_controller->addTask(next_task);
-                        m_logger->log("Re-registered periodic task ID: " + std::to_string(task->task_id) + 
-                                     " for next period at tick: " + std::to_string(next_task->arrival_time));
+                    // Release resource if held
+                    if(task->requires_resource && m_resource->isLockedBy(std::make_shared<TaskControlBlock>(*task))){
+                        m_resource->unlock(std::make_shared<TaskControlBlock>(*task));
+                        m_logger->log("Task ID: " + std::to_string(task->task_id) + " released the resource.");
                     }
-                }
 
-                // Re-register task for metrics analysis
-                m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
-            }else{
-                task->status = TaskStatus::READY;
+                    // Re-register periodic tasks for next period
+                    if(task->task_type == TaskType::PERIODIC) {
+                        auto next_task = std::make_shared<TaskControlBlock>(
+                            task->task_id,
+                            task->task_type, 
+                            task->period,
+                            task->execution_time,
+                            task->deadline,
+                            task->priority,
+                            task->arrival_time + task->period
+                        );
+                        if(next_task->arrival_time < m_max_ticks) {
+                            next_task->status = TaskStatus::PENDING;
+                            m_task_controller->addTask(next_task);
+                            m_logger->log("Re-registered periodic task ID: " + std::to_string(task->task_id) + 
+                                         " for next period at tick: " + std::to_string(next_task->arrival_time));
+                        }
+                    }
+
+                    // Re-register task for metrics
+                    m_task_controller->addTask(std::make_shared<TaskControlBlock>(*task));
+                }
             }
+
         }else{
             m_logger->log("No task selected for execution at tick: " + std::to_string(m_current_time));
             m_metrics_collector->incrementCpuIdleTime();
             previous_task = nullptr;
         }
 
-        // Update current time
         m_current_time++;
     }
 
@@ -119,6 +121,14 @@ void SimulationEngine::run(){
 
 int SimulationEngine::getCurrentTime() const{
     return m_current_time;
+}
+
+int SimulationEngine::getContextSwitchCount() const{
+    return m_metrics_collector->getContextSwitchCount();
+}
+
+int SimulationEngine::getCPUIdleTime() const{
+    return m_metrics_collector->getCPUIdleTime();
 }
 
 std::vector<std::shared_ptr<TaskControlBlock>> SimulationEngine::getCompletedTasks() const{

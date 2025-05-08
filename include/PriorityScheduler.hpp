@@ -1,6 +1,7 @@
 #ifndef PRIORITY_SCHEDULER_HPP
 #define PRIORITY_SCHEDULER_HPP
 
+#include <limits>
 #include <Scheduler.hpp>
 
 class PriorityScheduler : public Scheduler{

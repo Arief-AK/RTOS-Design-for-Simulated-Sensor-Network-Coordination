@@ -1,6 +1,7 @@
 #ifndef ROUNDROBIN_SCHEDULER_HPP
 #define ROUNDROBIN_SCHEDULER_HPP
 
+#include <limits>
 #include <Scheduler.hpp>
 
 class RoundRobinScheduler: public Scheduler{
@@ -13,6 +14,8 @@ public:
 private:
     int m_time_quantum; // fixed time-slice
     size_t m_last_index;
+    int m_current_quantum;  // tracks how long current task has run
+    TaskControlBlock* m_current_task;  // tracks current running task
 };
 
 #endif // ROUND_ROBIN_SCHEDULER_HPP

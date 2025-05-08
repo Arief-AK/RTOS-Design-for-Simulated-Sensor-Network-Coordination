@@ -72,3 +72,38 @@ target_link_libraries(test_edf_scheduler
     scheduler_core_lib
 )
 add_test(NAME EDFSchedulerTest COMMAND test_edf_scheduler)
+
+add_executable(test_scheduler_sanity tests/test_scheduler_sanity.cpp)
+target_link_libraries(test_scheduler_sanity
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerSanityTest COMMAND test_scheduler_sanity)
+
+add_executable(test_scheduler_context_switch tests/test_scheduler_context_switch.cpp)
+target_link_libraries(test_scheduler_context_switch
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerContextSwitchTest COMMAND test_scheduler_context_switch)
+
+add_executable(test_scheduler_response_time tests/test_scheduler_response_time.cpp)
+target_link_libraries(test_scheduler_response_time
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerResponseTimeTest COMMAND test_scheduler_response_time)
+
+add_executable(test_scheduler_cpu_idle tests/test_scheduler_cpu_idle.cpp)
+target_link_libraries(test_scheduler_cpu_idle
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerCPUIdleTest COMMAND test_scheduler_cpu_idle)
+
+add_executable(test_scheduler_resource_blocking tests/test_scheduler_resource_blocking.cpp)
+target_link_libraries(test_scheduler_resource_blocking
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerResourceBlockingTest COMMAND test_scheduler_resource_blocking)
