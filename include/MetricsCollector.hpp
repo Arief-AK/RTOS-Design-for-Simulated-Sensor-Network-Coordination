@@ -17,7 +17,7 @@ public:
     int getContextSwitchCount() const;
 
     void incrementCpuIdleTime();
-    void setCurrentTime(int current_time);
+    int getCPUIdleTime() const;
     
     void printReport(bool to_file = false);
 

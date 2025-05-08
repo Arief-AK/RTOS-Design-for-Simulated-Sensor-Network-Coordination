@@ -19,9 +19,9 @@ public:
     
     int getCurrentTime() const;
     int getContextSwitchCount() const;
+    int getCPUIdleTime() const;
 
     std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks() const;
-
 
 private:
     std::unique_ptr<TaskController> m_task_controller;
