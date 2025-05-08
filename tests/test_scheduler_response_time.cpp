@@ -31,8 +31,8 @@ TEST_P(SchedulerResponseTimeTest, ResponseTime) {
 
     // Create a mix of tasks with different characteristics
     // ID, Type, Period, Execution, Deadline, Priority, Arrival
-    task_controller.addTask(std::make_shared<TaskControlBlock>(1, TaskType::PERIODIC, 10, 3, 8, 2, 0));   // High priority periodic
-    task_controller.addTask(std::make_shared<TaskControlBlock>(2, TaskType::APERIODIC, 0, 2, 6, 1, 1));  // Medium priority aperiodic
+    task_controller.addTask(std::make_shared<TaskControlBlock>(1, TaskType::PERIODIC, 10, 3, 8, 2, 0));  // Medium priority periodic
+    task_controller.addTask(std::make_shared<TaskControlBlock>(2, TaskType::APERIODIC, 0, 2, 6, 1, 1));  // High priority aperiodic
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::SPORADIC, 0, 4, 10, 3, 2));  // Low priority sporadic
     
     SimulationEngine engine(
