@@ -1,7 +1,7 @@
 #include <CSVLogger.hpp>
 
 CSVLogger::CSVLogger(std::shared_ptr<MetricsCollector> collector, const std::string& name)
-    : m_collector(collector), m_logger_name(name), m_file_path("../logs/")
+    : m_collector(collector), m_logger_name(name), m_file_path("../csv/")
 {
     std::filesystem::create_directories(m_file_path);
 }
