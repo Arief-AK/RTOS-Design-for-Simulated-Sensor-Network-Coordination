@@ -21,6 +21,8 @@ public:
     
     void printReport(bool to_file = false);
 
+    std::vector<std::shared_ptr<TaskControlBlock>> getTaskList() const;
+
 private:
     int m_total_tasks;
     int m_completed_tasks;
@@ -34,6 +36,7 @@ private:
 
     std::string m_report_name;
     std::shared_ptr<Logger> m_logger;
+    std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
 };
 
 #endif // METRICS_COLLECTOR_HPP

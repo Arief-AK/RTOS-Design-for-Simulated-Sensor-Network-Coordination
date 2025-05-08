@@ -4,9 +4,10 @@ MetricsCollector::MetricsCollector(const std::string report_name, std::shared_pt
     : m_total_tasks{}, m_completed_tasks{}, m_incomplete_tasks{},
       m_deadline_miss_count{}, m_total_response_time{}, m_total_turnaround_time{},
       m_context_switch_count{}, m_cpu_idle_time{}, m_cpu_utilisation{},
-      m_report_name(report_name), m_logger(std::move(logger)) {}
+      m_report_name(report_name), m_logger(std::move(logger)), m_task_list{} {}
 
 MetricsCollector::~MetricsCollector(){
+    m_task_list.clear();
     m_logger.reset();
 }
 
@@ -29,6 +30,9 @@ void MetricsCollector::analyseTaskCompletion(const std::vector<std::shared_ptr<T
             if(task->finish_time > task->arrival_time + task->deadline){
                 m_deadline_miss_count++;
             }
+
+            // Append task to the list
+            m_task_list.push_back(task);
         }
         else{
             m_incomplete_tasks++;
@@ -86,6 +90,10 @@ void MetricsCollector::printReport(bool to_file){
         m_logger->log("No tasks completed.");
         return;
     }    
+}
+
+std::vector<std::shared_ptr<TaskControlBlock>> MetricsCollector::getTaskList() const{
+    return m_task_list;
 }
 
 void MetricsCollector::incrementContextSwitchCount(){
