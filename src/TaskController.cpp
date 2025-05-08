@@ -19,6 +19,7 @@ void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){
         return;
     }
     
+    bool already_completed = false;
     switch (task->status)
     {
     case TaskStatus::PENDING:
@@ -26,11 +27,33 @@ void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){
         break;
 
     case TaskStatus::READY:
-        m_ready_tasks.push_back(task);
+        // Only add to ready queue if not already completed
+        already_completed = false;
+        for(const auto& completed : m_completed_tasks){
+            if(completed->task_id == task->task_id &&
+               completed->finish_time == task->finish_time){
+                already_completed = true;
+                break;
+            }
+        }
+        if(!already_completed){
+            m_ready_tasks.push_back(task);
+        }
         break;
 
     case TaskStatus::COMPLETED:
-        m_completed_tasks.push_back(task);
+        // Only add to completed list if not already there
+        already_completed = false;
+        for(const auto& completed : m_completed_tasks){
+            if(completed->task_id == task->task_id &&
+               completed->finish_time == task->finish_time){
+                already_completed = true;
+                break;
+            }
+        }
+        if(!already_completed){
+            m_completed_tasks.push_back(task);
+        }
         break;
     
     default:
@@ -40,12 +63,38 @@ void TaskController::addTask(std::shared_ptr<TaskControlBlock> task){
 }
 
 void TaskController::organiseTasks(int current_time){
-    // Move tasks from pending to ready if current time is greater than or equal to the arrival time
+    // Move tasks from pending to ready if current time is greater than or equal to arrival time
     for (auto it = m_pending_tasks.begin(); it != m_pending_tasks.end();){
         if(current_time >= (*it)->arrival_time){
             (*it)->status = TaskStatus::READY;
             m_ready_tasks.push_back(*it);
             it = m_pending_tasks.erase(it);
+        }else{
+            ++it;
+        }
+    }
+
+    // Remove completed tasks from ready queue
+    for (auto it = m_ready_tasks.begin(); it != m_ready_tasks.end();){
+        if((*it)->status == TaskStatus::COMPLETED || 
+           ((*it)->remaining_time <= 0 && current_time >= (*it)->finish_time)){
+            // Check if this task instance is already in completed list
+            bool already_completed = false;
+            for(const auto& completed : m_completed_tasks){
+                if(completed->task_id == (*it)->task_id &&
+                   completed->finish_time == (*it)->finish_time){
+                    already_completed = true;
+                    break;
+                }
+            }
+            
+            // Add to completed list if not already there
+            if(!already_completed){
+                (*it)->status = TaskStatus::COMPLETED;
+                m_completed_tasks.push_back(*it);
+            }
+            
+            it = m_ready_tasks.erase(it);
         }else{
             ++it;
         }
