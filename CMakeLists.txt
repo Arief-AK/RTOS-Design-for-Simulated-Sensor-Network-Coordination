@@ -86,3 +86,10 @@ target_link_libraries(test_scheduler_context_switch
     scheduler_core_lib
 )
 add_test(NAME SchedulerContextSwitchTest COMMAND test_scheduler_context_switch)
+
+add_executable(test_scheduler_response_time tests/test_scheduler_response_time.cpp)
+target_link_libraries(test_scheduler_response_time
+    GTest::gtest_main
+    scheduler_core_lib
+)
+add_test(NAME SchedulerResponseTimeTest COMMAND test_scheduler_response_time)
