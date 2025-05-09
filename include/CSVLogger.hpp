@@ -4,12 +4,15 @@
 #include <filesystem>
 #include <Logger.hpp>
 #include <MetricsCollector.hpp>
+#include <TaskControlBlock.hpp>
 
 class CSVLogger : public Logger
 {
 public:
-    CSVLogger(std::shared_ptr<MetricsCollector> collector, const std::string& name="CSV_Logger");
+    CSVLogger(const std::string& name="CSV_Logger");
     ~CSVLogger();
+
+    void setTasks(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list);
 
     void log(const std::string &message) override;
     void logToFile(const std::string &message) override;
@@ -20,10 +23,10 @@ public:
     std::string getLoggerName() const override;
 
 private:
-    std::shared_ptr<MetricsCollector> m_collector;
     std::string m_logger_name;
     std::string m_file_path;
     std::ofstream m_file_stream;
+    std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
 
 };
 

@@ -1,7 +1,7 @@
 #include <CSVLogger.hpp>
 
-CSVLogger::CSVLogger(std::shared_ptr<MetricsCollector> collector, const std::string& name)
-    : m_collector(collector), m_logger_name(name), m_file_path("../csv/")
+CSVLogger::CSVLogger(const std::string &name)
+    : m_logger_name(name), m_file_path("../csv/"), m_task_list{}
 {
     std::filesystem::create_directories(m_file_path);
 }
@@ -11,6 +11,10 @@ CSVLogger::~CSVLogger()
     if (m_file_stream.is_open()) {
         m_file_stream.close();
     }
+}
+
+void CSVLogger::setTasks(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list){
+    m_task_list = task_list;
 }
 
 void CSVLogger::log(const std::string& message){
@@ -51,15 +55,12 @@ void CSVLogger::exportToCSV(const std::string &filename){
         std::cerr << "Error opening file: " << full_path << std::endl;
         return;
     }
-
-    // Get metrics from collector
-    auto task_list = m_collector->getTaskList();
-    
+  
     // Write headers
     m_file_stream << "TaskID,ArrivalTime,StartTime,FinishTime,ExecutionTime,Priority,Period,Deadline,Status"  << std::endl;
 
     // Write task details
-    for (const auto& task : task_list){
+    for (const auto& task : m_task_list){
         m_file_stream << task->task_id << ","
                       << task->arrival_time << ","
                       << task->start_time << ","
