@@ -1,13 +1,14 @@
 #ifndef METRICS_COLLECTOR_HPP
 #define METRICS_COLLECTOR_HPP
 
+#include <CSVLogger.hpp>
 #include <ConsoleLogger.hpp>
 #include <TaskControlBlock.hpp>
 
 class MetricsCollector
 {
 public:
-    MetricsCollector(const std::string report_name, std::shared_ptr<Logger> logger);
+    MetricsCollector(const std::string report_name, std::shared_ptr<Logger> logger, bool to_csv = false, bool to_json = false);
     ~MetricsCollector();
 
     void analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list, int current_time);
@@ -34,8 +35,12 @@ private:
     int m_cpu_idle_time;
     int m_cpu_utilisation;
 
+    bool m_to_csv;
+    bool m_to_json;
+
     std::string m_report_name;
     std::shared_ptr<Logger> m_logger;
+    std::vector<std::shared_ptr<Logger>> m_loggers;
     std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
 };
 

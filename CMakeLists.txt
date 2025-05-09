@@ -48,6 +48,7 @@ add_library(scheduler_core_lib
     src/ConsoleLogger.cpp
     src/MetricsCollector.cpp
     src/EDFScheduler.cpp
+    src/CSVLogger.cpp
 )
 target_include_directories(scheduler_core_lib PUBLIC include)
 
