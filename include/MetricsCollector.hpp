@@ -2,6 +2,7 @@
 #define METRICS_COLLECTOR_HPP
 
 #include <CSVLogger.hpp>
+#include <JSONLogger.hpp>
 #include <ConsoleLogger.hpp>
 #include <TaskControlBlock.hpp>
 

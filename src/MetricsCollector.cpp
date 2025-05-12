@@ -12,9 +12,9 @@ MetricsCollector::MetricsCollector(const std::string report_name, std::shared_pt
         m_loggers.push_back(std::make_shared<CSVLogger>());
     }
 
-    // if (m_to_json) {
-    //     m_loggers.push_back(std::make_shared<JSONLogger>());
-    // }
+    if (m_to_json) {
+        m_loggers.push_back(std::make_shared<JSONLogger>());
+    }
 }
 
 MetricsCollector::~MetricsCollector(){
@@ -103,6 +103,14 @@ void MetricsCollector::printReport(bool to_file){
             if (csv_logger) {
                 csv_logger->setTasks(m_task_list);
                 csv_logger->exportToCSV(m_report_name);
+            }
+        }
+
+        if (m_to_json){
+            auto json_logger = std::dynamic_pointer_cast<JSONLogger>(m_loggers[1]);
+            if (json_logger) {
+                json_logger->setTasks(m_task_list);
+                json_logger->exportToJSON(m_report_name);
             }
         }
         
