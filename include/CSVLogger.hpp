@@ -3,7 +3,6 @@
 
 #include <filesystem>
 #include <Logger.hpp>
-#include <MetricsCollector.hpp>
 #include <TaskControlBlock.hpp>
 
 class CSVLogger : public Logger
