@@ -110,7 +110,7 @@ void MetricsCollector::printReport(bool to_file){
             auto json_logger = std::dynamic_pointer_cast<JSONLogger>(m_loggers[1]);
             if (json_logger) {
                 json_logger->setTasks(m_task_list);
-                json_logger->exportToJSON(m_report_name);
+                json_logger->exportToJSON(m_report_name, m_report_name);
             }
         }
         

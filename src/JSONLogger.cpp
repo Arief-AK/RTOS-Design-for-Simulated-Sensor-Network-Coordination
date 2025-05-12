@@ -47,13 +47,19 @@ void JSONLogger::logToFile(const std::string& message, const std::string& filena
     m_file_stream.close();
 }
 
-void JSONLogger::exportToJSON(const std::string &filename){
+void JSONLogger::exportToJSON(const std::string &filename, const std::string& sim_name){
     std::string full_path = m_file_path + filename + ".json";
 
-    // Create a JSON array
+    // Create a JSON variables
+    auto dataframe = nlohmann::json::object();
     auto json_array = nlohmann::json::array();
+    nlohmann::json json_task;
+
+    // Add simulation name to the JSON object
+    dataframe["SimulationName"] = sim_name;
+
+    // Iterate through the task list and create JSON objects
     for (const auto& task : m_task_list) {
-        nlohmann::json json_task;
         json_task["TaskID"] = task->task_id;
         json_task["ArrivalTime"] = task->arrival_time;
         json_task["StartTime"] = task->start_time;
@@ -68,17 +74,41 @@ void JSONLogger::exportToJSON(const std::string &filename){
         json_array.push_back(json_task);
     }
 
+    auto system_time = _getCurrentSystemTime();
+
+    // Add the JSON array to the dataframe
+    dataframe["Tasks"] = json_array;
+    dataframe["TaskCount"] = json_array.size();
+    dataframe["Timestamp"] = system_time;
+
+    // Open the file and write the JSON data
     m_file_stream.open(full_path, std::ios::app);
     if (!m_file_stream.is_open()){
         std::cerr << "Error opening file: " << full_path << std::endl;
         return;
     }
-    
-    m_file_stream << std::setw(4) << json_array << std::endl;
+    m_file_stream << std::setw(4) << dataframe << std::endl;
     m_file_stream.close();
     log("Exported metrics to JSON: " + full_path);
 }
 
 std::string JSONLogger::getLoggerName() const {
     return m_logger_name;
+}
+
+std::string JSONLogger::_getCurrentSystemTime(){
+    auto now = std::chrono::system_clock::now();
+    auto time = std::chrono::system_clock::to_time_t(now);
+    std::tm tm_buffer;
+
+    #ifdef _WIN32
+        localtime_s(&tm_buffer, &time);
+    #else
+        localtime_r(&time, &tm_buffer);
+    #endif
+
+    char time_buffer_char[32];
+    std::strftime(time_buffer_char, sizeof(time_buffer_char), "%Y-%m-%d %H:%M:%S", &tm_buffer);
+
+    return std::string(time_buffer_char);
 }
