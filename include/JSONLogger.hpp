@@ -18,7 +18,7 @@ public:
     void logToFile(const std::string &message) override;
     void logToFile(const std::string &message, const std::string &filename) override;
 
-    void exportToJSON(const std::string& filename);
+    void exportToJSON(const std::string& filename, const std::string& sim_name);
 
     std::string getLoggerName() const override;
 
@@ -27,6 +27,8 @@ private:
     std::string m_file_path;
     std::ofstream m_file_stream;
     std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
+
+    std::string _getCurrentSystemTime();
 };
 
 #endif // JSON_LOGGER_HPP
