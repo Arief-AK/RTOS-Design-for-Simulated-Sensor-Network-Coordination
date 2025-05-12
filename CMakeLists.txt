@@ -20,6 +20,16 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+# Add nlohmann_json library
+include(FetchContent)
+
+FetchContent_Declare(
+  nlohmann_json
+  URL https://github.com/nlohmann/json/releases/download/v3.11.3/json.tar.xz
+)
+
+FetchContent_MakeAvailable(nlohmann_json)
+
 # Source files
 file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.hpp")
@@ -49,8 +59,13 @@ add_library(scheduler_core_lib
     src/MetricsCollector.cpp
     src/EDFScheduler.cpp
     src/CSVLogger.cpp
+    src/JSONLogger.cpp
 )
 target_include_directories(scheduler_core_lib PUBLIC include)
+
+# Link nlohmann_json to targets
+target_link_libraries(RTOS_sensor_network PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(scheduler_core_lib PUBLIC nlohmann_json::nlohmann_json)
 
 # Testing executables
 add_executable(test_scheduler_sanity tests/test_scheduler_sanity.cpp)
