@@ -6,6 +6,19 @@
 #include <ConsoleLogger.hpp>
 #include <TaskControlBlock.hpp>
 
+struct Metrics
+{
+    int total_tasks;
+    int completed_tasks;
+    int incomplete_tasks;
+    int deadline_miss_count;
+    int total_response_time;
+    int total_turnaround_time;
+    int context_switch_count;
+    int cpu_idle_time;
+    double cpu_utilisation;
+};
+
 class MetricsCollector
 {
 public:
@@ -26,18 +39,10 @@ public:
     std::vector<std::shared_ptr<TaskControlBlock>> getTaskList() const;
 
 private:
-    int m_total_tasks;
-    int m_completed_tasks;
-    int m_incomplete_tasks;
-    int m_deadline_miss_count;
-    int m_total_response_time;
-    int m_total_turnaround_time;
-    int m_context_switch_count;
-    int m_cpu_idle_time;
-    int m_cpu_utilisation;
-
     bool m_to_csv;
     bool m_to_json;
+
+    Metrics m_metrics;
 
     std::string m_report_name;
     std::string m_scheduler_name;
