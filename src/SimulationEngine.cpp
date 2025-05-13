@@ -1,18 +1,20 @@
 #include <SimulationEngine.hpp>
 
 SimulationEngine::SimulationEngine(
+    std::string simulation_name,
     std::unique_ptr<TaskController> task_controller,
     std::unique_ptr<Scheduler> scheduler,
     std::shared_ptr<Logger> logger,
     int max_ticks
-    ): m_task_controller(std::move(task_controller)),
+    ): m_simulation_name(simulation_name),
+        m_task_controller(std::move(task_controller)),
         m_scheduler(std::move(scheduler)),
         m_logger(std::move(logger)),
         m_current_time(0),
         m_max_ticks(max_ticks)
     {
         auto logger_name = m_logger->getLoggerName();
-        m_metrics_collector = std::make_unique<MetricsCollector>("SimulationEngine", std::make_shared<ConsoleLogger>(logger_name + "_MetricsCollector"), true, true);
+        m_metrics_collector = std::make_unique<MetricsCollector>(m_simulation_name, std::make_shared<ConsoleLogger>(logger_name + "_MetricsCollector"), true, true);
         m_resource = std::make_shared<Resource>(1);
     }
 
