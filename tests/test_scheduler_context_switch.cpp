@@ -26,6 +26,7 @@ TEST_P(SchedulerContextSwitchTest, ContextSwitchCount){
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
+        "Test_SchedulerContextSwitch",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
         std::make_shared<ConsoleLogger>("Test_SchedulerContextSwitch"),

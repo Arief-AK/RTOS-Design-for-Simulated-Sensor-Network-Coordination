@@ -47,7 +47,7 @@ void JSONLogger::logToFile(const std::string& message, const std::string& filena
     m_file_stream.close();
 }
 
-void JSONLogger::exportToJSON(const std::string &filename, const std::string& sim_name){
+void JSONLogger::exportToJSON(const std::string &filename, const std::string& sim_name, const std::string& scheduler_name, const Metrics& metrics){
     std::string full_path = m_file_path + filename + ".json";
 
     // Create a JSON variables
@@ -55,8 +55,9 @@ void JSONLogger::exportToJSON(const std::string &filename, const std::string& si
     auto json_array = nlohmann::json::array();
     nlohmann::json json_task;
 
-    // Add simulation name to the JSON object
+    // Add simulation and scheduler name to the JSON object
     dataframe["SimulationName"] = sim_name;
+    dataframe["SchedulerName"] = scheduler_name;
 
     // Iterate through the task list and create JSON objects
     for (const auto& task : m_task_list) {
@@ -79,6 +80,20 @@ void JSONLogger::exportToJSON(const std::string &filename, const std::string& si
     // Add the JSON array to the dataframe
     dataframe["Tasks"] = json_array;
     dataframe["TaskCount"] = json_array.size();
+
+    // Add metric ditionary
+    dataframe["Metrics"] = nlohmann::json::object();
+    dataframe["Metrics"]["TotalTasks"] = metrics.total_tasks;
+    dataframe["Metrics"]["CompletedTasks"] = metrics.completed_tasks;
+    dataframe["Metrics"]["IncompleteTasks"] = metrics.incomplete_tasks;
+    dataframe["Metrics"]["DeadlineMissCount"] = metrics.deadline_miss_count;
+    dataframe["Metrics"]["AverageResponseTime"] = (metrics.completed_tasks > 0) ? (metrics.total_response_time / metrics.completed_tasks) : 0;
+    dataframe["Metrics"]["AverageTurnaroundTime"] = (metrics.completed_tasks > 0) ? (metrics.total_turnaround_time / metrics.completed_tasks) : 0;
+    dataframe["Metrics"]["ContextSwitchCount"] = metrics.context_switch_count;
+    dataframe["Metrics"]["CPUIdleTime"] = metrics.cpu_idle_time;
+    dataframe["Metrics"]["CPUUtilisation"] = metrics.cpu_utilisation;
+
+    // Add the current system time to the dataframe
     dataframe["Timestamp"] = system_time;
 
     // Open the file and write the JSON data
