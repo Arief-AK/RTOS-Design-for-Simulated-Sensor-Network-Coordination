@@ -1,23 +1,11 @@
 #ifndef METRICS_COLLECTOR_HPP
 #define METRICS_COLLECTOR_HPP
 
+#include <Metrics.hpp>
 #include <CSVLogger.hpp>
 #include <JSONLogger.hpp>
 #include <ConsoleLogger.hpp>
 #include <TaskControlBlock.hpp>
-
-struct Metrics
-{
-    int total_tasks;
-    int completed_tasks;
-    int incomplete_tasks;
-    int deadline_miss_count;
-    int total_response_time;
-    int total_turnaround_time;
-    int context_switch_count;
-    int cpu_idle_time;
-    double cpu_utilisation;
-};
 
 class MetricsCollector
 {
