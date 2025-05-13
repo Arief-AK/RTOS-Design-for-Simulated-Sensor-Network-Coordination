@@ -36,6 +36,7 @@ TEST_P(SchedulerResponseTimeTest, ResponseTime) {
     task_controller.addTask(std::make_shared<TaskControlBlock>(3, TaskType::SPORADIC, 0, 4, 10, 3, 2));  // Low priority sporadic
     
     SimulationEngine engine(
+        "Test_SchedulerResponseTime",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
         std::make_shared<ConsoleLogger>("Test_SchedulerResponseTime"),
