@@ -24,6 +24,9 @@ MetricsCollector::~MetricsCollector(){
 void MetricsCollector::analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list, int current_time){
     m_metrics.total_tasks = task_list.size();
 
+    // Ensure proposed task list is empty
+    m_task_list.clear();
+
     // Initialise cpu utilisation
     auto cpu_utilisation = 0;
 
@@ -56,6 +59,9 @@ void MetricsCollector::analyseTaskCompletion(const std::vector<std::shared_ptr<T
 
 void MetricsCollector::reset(){
     m_metrics = Metrics{};
+    m_task_list.clear();
+    m_loggers.clear();
+
     m_logger->log("MetricsCollector reset");
 }
 
