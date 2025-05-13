@@ -18,7 +18,7 @@ public:
     void logToFile(const std::string &message) override;
     void logToFile(const std::string &message, const std::string &filename) override;
 
-    void exportToJSON(const std::string& filename, const std::string& sim_name);
+    void exportToJSON(const std::string& filename, const std::string& sim_name, const std::string& scheduler_name);
 
     std::string getLoggerName() const override;
 

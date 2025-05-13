@@ -1,11 +1,12 @@
 #include <MetricsCollector.hpp>
 
-MetricsCollector::MetricsCollector(const std::string report_name, std::shared_ptr<Logger> logger, bool to_csv, bool to_json)
+MetricsCollector::MetricsCollector(const std::string report_name, const std::string scheduler_name, std::shared_ptr<Logger> logger, bool to_csv, bool to_json)
     : m_total_tasks{}, m_completed_tasks{}, m_incomplete_tasks{},
       m_deadline_miss_count{}, m_total_response_time{}, m_total_turnaround_time{},
       m_context_switch_count{}, m_cpu_idle_time{}, m_cpu_utilisation{},
       m_to_csv(to_csv), m_to_json(to_json), m_report_name(report_name),
-      m_logger(std::move(logger)), m_loggers{}, m_task_list{}
+      m_scheduler_name(scheduler_name), m_logger(std::move(logger)), m_loggers{},
+      m_task_list{}
 {
     // Create CSV and JSON loggers if required
     if (m_to_csv) {
@@ -110,7 +111,7 @@ void MetricsCollector::printReport(bool to_file){
             auto json_logger = std::dynamic_pointer_cast<JSONLogger>(m_loggers[1]);
             if (json_logger) {
                 json_logger->setTasks(m_task_list);
-                json_logger->exportToJSON(m_report_name, m_report_name);
+                json_logger->exportToJSON(m_report_name, m_report_name, m_scheduler_name);
             }
         }
         

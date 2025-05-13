@@ -47,7 +47,7 @@ void JSONLogger::logToFile(const std::string& message, const std::string& filena
     m_file_stream.close();
 }
 
-void JSONLogger::exportToJSON(const std::string &filename, const std::string& sim_name){
+void JSONLogger::exportToJSON(const std::string &filename, const std::string& sim_name, const std::string& scheduler_name){
     std::string full_path = m_file_path + filename + ".json";
 
     // Create a JSON variables
@@ -55,8 +55,9 @@ void JSONLogger::exportToJSON(const std::string &filename, const std::string& si
     auto json_array = nlohmann::json::array();
     nlohmann::json json_task;
 
-    // Add simulation name to the JSON object
+    // Add simulation and scheduler name to the JSON object
     dataframe["SimulationName"] = sim_name;
+    dataframe["SchedulerName"] = scheduler_name;
 
     // Iterate through the task list and create JSON objects
     for (const auto& task : m_task_list) {

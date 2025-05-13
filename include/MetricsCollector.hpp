@@ -9,7 +9,7 @@
 class MetricsCollector
 {
 public:
-    MetricsCollector(const std::string report_name, std::shared_ptr<Logger> logger, bool to_csv = false, bool to_json = false);
+    MetricsCollector(const std::string report_name, const std::string scheduler_name, std::shared_ptr<Logger> logger, bool to_csv = false, bool to_json = false);
     ~MetricsCollector();
 
     void analyseTaskCompletion(const std::vector<std::shared_ptr<TaskControlBlock>> &task_list, int current_time);
@@ -40,6 +40,7 @@ private:
     bool m_to_json;
 
     std::string m_report_name;
+    std::string m_scheduler_name;
     std::shared_ptr<Logger> m_logger;
     std::vector<std::shared_ptr<Logger>> m_loggers;
     std::vector<std::shared_ptr<TaskControlBlock>> m_task_list;
