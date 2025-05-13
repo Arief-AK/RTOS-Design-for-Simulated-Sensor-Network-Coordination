@@ -67,6 +67,7 @@ void Controller::runSimulation(){
 void Controller::_createEngine(){
     // Create the simulation engine
     m_engine = std::make_unique<SimulationEngine>(
+        m_controller_name,
         std::move(m_task_controller),
         std::move(m_scheduler),
         m_logger,
