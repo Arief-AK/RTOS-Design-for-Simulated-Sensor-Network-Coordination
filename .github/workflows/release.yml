@@ -20,14 +20,10 @@ jobs:
             restore-keys: |
                 ${{ runner.os }}-cmake-
 
-      # Build the applications
-      - name: Build with CMake
+      - name: Build
         run: |
-            cd /home/runner/work/OpenCL-Development-Real-time-Image-Processing/OpenCL-Development-Real-time-Image-Processing/
-            mkdir -p build
-            cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-            cd build
-            make
+            cmake -S . -B build
+            cmake --build build --config Release
 
       # Create a tar.gz archive of the build folder
       - name: Create tar.gz archive
