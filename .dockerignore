@@ -1,5 +1,7 @@
 build/
 logs/
+csv/
 .git/
 .github/
 .vscode/
+json/

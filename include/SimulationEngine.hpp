@@ -9,6 +9,7 @@
 class SimulationEngine{
 public:
     SimulationEngine(
+        std::string simulation_name,
         std::unique_ptr<TaskController> task_controller,
         std::unique_ptr<Scheduler> scheduler,
         std::shared_ptr<Logger> logger,
@@ -24,6 +25,7 @@ public:
     std::vector<std::shared_ptr<TaskControlBlock>> getCompletedTasks() const;
 
 private:
+    std::string m_simulation_name;
     std::unique_ptr<TaskController> m_task_controller;
     std::unique_ptr<Scheduler> m_scheduler;
     std::shared_ptr<Logger> m_logger;
