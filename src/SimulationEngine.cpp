@@ -14,7 +14,7 @@ SimulationEngine::SimulationEngine(
         m_max_ticks(max_ticks)
     {
         auto logger_name = m_logger->getLoggerName();
-        m_metrics_collector = std::make_unique<MetricsCollector>(m_simulation_name, m_scheduler->getName(), std::make_shared<ConsoleLogger>(logger_name + "_MetricsCollector"), true, true);
+        m_metrics_collector = std::make_unique<MetricsCollector>(m_simulation_name, m_scheduler->getName(), std::make_shared<ConsoleLogger>(logger_name + "_MetricsCollector"), true, false);
         m_resource = std::make_shared<Resource>(1);
     }
 

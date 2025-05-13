@@ -89,19 +89,19 @@ void MetricsCollector::printReport(bool to_file){
             m_logger->logToFile(report.str(), m_report_name);
         }
 
-        if (m_to_csv){
-            auto csv_logger = std::dynamic_pointer_cast<CSVLogger>(m_loggers[0]);
+        // Iterate through m_loggers and call the appropriate export method
+        for (const auto& logger : m_loggers) {
+            auto csv_logger = std::dynamic_pointer_cast<CSVLogger>(logger);
             if (csv_logger) {
                 csv_logger->setTasks(m_task_list);
-                csv_logger->exportToCSV(m_report_name);
+                csv_logger->exportToCSV(m_report_name, m_report_name, m_scheduler_name, m_metrics);
+                continue;
             }
-        }
-
-        if (m_to_json){
-            auto json_logger = std::dynamic_pointer_cast<JSONLogger>(m_loggers[1]);
+            auto json_logger = std::dynamic_pointer_cast<JSONLogger>(logger);
             if (json_logger) {
                 json_logger->setTasks(m_task_list);
                 json_logger->exportToJSON(m_report_name, m_report_name, m_scheduler_name, m_metrics);
+                continue;
             }
         }
         
