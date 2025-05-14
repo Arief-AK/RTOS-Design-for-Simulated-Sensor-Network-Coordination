@@ -1,19 +1,15 @@
 import json
-# import pandas as pd
-# import matplotlib as plt
+import pandas as pd
+import matplotlib as plt
 
-from SimData import Metrics, SimData
+from Extractor import Extractor, SimData
 
-JSON_FILE = "../json/main_controller.json"
+JSON_FILE = "json/main_controller.json"
 
 # Extract the information
 def extract_info(data) -> SimData:
-    sim_name = data["SimulationName"]
-    scheduler_name = data["SchedulerName"]
-    raw_metrics = data["Metrics"]
-    tasks = data["Tasks"]
-    task_count = data["TaskCount"]
-    timestamp = data["Timestamp"]
+    extractor = Extractor(data)
+    return extractor.extracted_data
 
 # Produce chart
 def produce_chart():
@@ -31,10 +27,5 @@ if __name__ == "__main__":
         data = json.load(json_file)
     
     # Extract data
-    
-
-    # Create the tasks chart
-
-    # Create the metrics chart
-
-    # Display
+    structured_data = extract_info(data)
+    print("Parsed data")
