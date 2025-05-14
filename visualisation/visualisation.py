@@ -1,12 +1,10 @@
+import os
+import glob
 import json
 import pandas as pd
 import matplotlib.pyplot as plt
-import glob
-import os
 
 from Extractor import Extractor, SimData
-
-JSON_FILE = "json/main_controller.json"
 
 # Extract the information
 def extract_info(data) -> SimData:
