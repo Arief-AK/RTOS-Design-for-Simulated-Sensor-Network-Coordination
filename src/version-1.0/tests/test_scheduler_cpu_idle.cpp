@@ -24,10 +24,10 @@ TEST_P(SchedulerCPUIdleTest, CPUIdleTime) {
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
-        "Test_SchedulerCPUIdle",
+        "v1-Test_SchedulerCPUIdle",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_SchedulerCPUIdle"),
+        std::make_shared<ConsoleLogger>("v1-Test_SchedulerCPUIdle"),
         10 // max_ticks
     );
 
@@ -47,10 +47,10 @@ TEST_P(SchedulerCPUIdleTest, NoTasks) {
 
     // Create simulation engine
     SimulationEngine engine(
-        "Test_SchedulerNoTasks",
+        "v1-Test_SchedulerNoTasks",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_NoTasks"),
+        std::make_shared<ConsoleLogger>("v1-Test_NoTasks"),
         10 // max_ticks
     );
 
@@ -73,10 +73,10 @@ TEST_P(SchedulerCPUIdleTest, OverlappingTasks) {
 
     // Create simulation engine
     SimulationEngine engine(
-        "Test_SchedulerOverlappingTasks",
+        "v1-Test_SchedulerOverlappingTasks",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_OverlappingTasks"),
+        std::make_shared<ConsoleLogger>("v1-Test_OverlappingTasks"),
         10 // max_ticks
     );
 
@@ -99,10 +99,10 @@ TEST_P(SchedulerCPUIdleTest, HighPriorityPreemption) {
 
     // Create simulation engine
     SimulationEngine engine(
-        "Test_SchedulerHighPriorityPreemption",
+        "v1-Test_SchedulerHighPriorityPreemption",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_HighPriorityPreemption"),
+        std::make_shared<ConsoleLogger>("v1-Test_HighPriorityPreemption"),
         10 // max_ticks
     );
 
