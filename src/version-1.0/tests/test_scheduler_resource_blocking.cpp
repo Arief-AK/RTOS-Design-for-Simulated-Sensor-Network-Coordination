@@ -25,10 +25,10 @@ TEST_P(SchedulerResourceBlockingTest, ResourceBlocking) {
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
-        "Test_SchedulerResourceBlocking",
+        "v1-Test_SchedulerResourceBlocking",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_SchedulerResourceBlocking"),
+        std::make_shared<ConsoleLogger>("v1-Test_SchedulerResourceBlocking"),
         10 // max_ticks
     );
 

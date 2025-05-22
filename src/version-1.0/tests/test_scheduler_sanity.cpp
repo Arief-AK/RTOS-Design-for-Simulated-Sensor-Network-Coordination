@@ -26,10 +26,10 @@ TEST_P(SchedulerSanityTest, CompleteAllTasks){
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
-        "Test_CompleteAllTasks",
+        "v1-Test_CompleteAllTasks",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_SchedulerComparison"),
+        std::make_shared<ConsoleLogger>("v1-Test_SchedulerComparison"),
         10 // max_ticks
     );
 
@@ -59,10 +59,10 @@ TEST_P(SchedulerSanityTest, NoTasksCompleted){
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
-        "Test_NoTasksCompleted",
+        "v1-Test_NoTasksCompleted",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_SchedulerComparison"),
+        std::make_shared<ConsoleLogger>("v1-Test_SchedulerComparison"),
         1 // max_ticks
     );
 
@@ -87,10 +87,10 @@ TEST_P(SchedulerSanityTest, SomeTasksCompleted){
 
     // Create simulation engine with all scheduler
     SimulationEngine engine(
-        "Test_SomeTasksCompleted",
+        "v1-Test_SomeTasksCompleted",
         std::make_unique<TaskController>(task_controller),
         GetParam()(),
-        std::make_shared<ConsoleLogger>("Test_SchedulerComparison"),
+        std::make_shared<ConsoleLogger>("v1-Test_SchedulerComparison"),
         5 // max_ticks
     );
 
