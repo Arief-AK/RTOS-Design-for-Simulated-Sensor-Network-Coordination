@@ -27,9 +27,8 @@ void TaskControlBlock::updateMetrics(u_int8_t current_time){
 std::stringstream TaskControlBlock::get_stats() const {
     std::stringstream stream;
 
-    stream << "Task Statistics:\n"
-        << "-----------------\n"
-        << "Task ID: " << static_cast<int>(task_id) << "\n"
+    stream 
+        << "\nTask ID: " << static_cast<int>(task_id) << "\n"
         << "\tArrival Time: " << static_cast<int>(arrival_time) << "\n"
         << "\tComputation Time: " << static_cast<int>(computation_time) << "\n"
         << "\tAbsolute Deadline: " << static_cast<int>(abs_deadline) << "\n"
@@ -49,8 +48,7 @@ std::stringstream TaskControlBlock::get_stats() const {
         << (status == TaskStatus::READY ? "READY" :
             status == TaskStatus::RUNNING ? "RUNNING" : 
             status == TaskStatus::COMPLETED ? "COMPLETED" : "")
-        << "\n-----------------"
-        << std::endl;
+        << "\n-----------------";
 
     return stream;
 }

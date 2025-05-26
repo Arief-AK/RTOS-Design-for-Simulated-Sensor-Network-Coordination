@@ -1,7 +1,9 @@
 #include <Kernel.hpp>
 
 Kernel::Kernel(std::unique_ptr<Scheduler> scheduler, std::unique_ptr<Logger> logger)
-    : m_scheduler(std::move(scheduler)), m_dispatcher{} {}
+    :   m_scheduler(std::move(scheduler)),
+        m_dispatcher(std::make_unique<Dispatcher>()),
+        m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("Kernel")) {}
 
 Kernel::~Kernel(){}
 
@@ -29,7 +31,9 @@ void Kernel::run(u_int8_t simulation_time){
     }
 
     // Log the final state of all tasks
+    m_logger->log("\n\n----------------- TASK STATISTICS -----------------");
     for (const auto& task : m_taskList) {
         m_logger->log(task->get_stats().str());
     }
+    m_logger->log("\n----------------- END OF TASK STATISTICS -----------------");
 }
