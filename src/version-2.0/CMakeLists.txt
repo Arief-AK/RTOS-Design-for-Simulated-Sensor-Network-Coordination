@@ -1,8 +1,9 @@
 # Source files
 file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp")
-file(GLOB_RECURSE HEADERS "include/*.hpp")
+file(GLOB_RECURSE HEADERS "include/*.hpp" "config/*.hpp")
 
 # Include directories
+include_directories(config)
 include_directories(include)
 include_directories(src)
 
