@@ -11,7 +11,7 @@ class Kernel{
 public:
     Kernel(
         std::unique_ptr<Scheduler> scheduler,
-        std::unique_ptr<Logger> logger = std::make_unique<ConsoleLogger>("Kernel")
+        std::unique_ptr<Logger> logger = std::make_unique<ConsoleLogger>("Kernel", true)
     );
     ~Kernel();
 

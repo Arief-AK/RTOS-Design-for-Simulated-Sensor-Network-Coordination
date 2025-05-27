@@ -3,7 +3,7 @@
 Kernel::Kernel(std::unique_ptr<Scheduler> scheduler, std::unique_ptr<Logger> logger)
     :   m_scheduler(std::move(scheduler)),
         m_dispatcher(std::make_unique<Dispatcher>()),
-        m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("Kernel")) {}
+        m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("Kernel", true)) {}
 
 Kernel::~Kernel(){}
 

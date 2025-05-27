@@ -2,7 +2,7 @@
 
 ProducerTask::ProducerTask(Sensor &sensor, std::unique_ptr<Logger> logger)
 :   m_sensor(sensor),
-    m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("ProducerTask")) {}
+    m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("ProducerTask", true)) {}
 
 void ProducerTask::run(TaskControlBlock *task, uint8_t current_time) {
     task->setStatus(TaskStatus::RUNNING);

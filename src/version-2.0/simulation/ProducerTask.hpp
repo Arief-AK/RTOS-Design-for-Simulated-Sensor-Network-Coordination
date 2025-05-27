@@ -20,7 +20,7 @@ extern CABuffer<int, 10> sensor_data_buffer;
 
 class ProducerTask : public TaskBehaviour{
 public:
-    ProducerTask(Sensor& sensor, std::unique_ptr<Logger> logger = std::make_unique<ConsoleLogger>("ProducerTask"));
+    ProducerTask(Sensor& sensor, std::unique_ptr<Logger> logger = std::make_unique<ConsoleLogger>("ProducerTask", true));
     void run(TaskControlBlock* task, uint8_t current_time) override;
 
 private:

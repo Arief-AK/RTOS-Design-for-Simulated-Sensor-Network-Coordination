@@ -17,3 +17,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(RTOS_v2.0 PRIVATE /W4)
 endif()
+
+# Link nlohmann_json to targets
+target_link_libraries(RTOS_v2.0 PRIVATE nlohmann_json::nlohmann_json)

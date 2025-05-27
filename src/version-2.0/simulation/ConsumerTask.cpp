@@ -1,7 +1,7 @@
 #include <ConsumerTask.hpp>
 
 ConsumerTask::ConsumerTask(std::unique_ptr<Logger> logger)
-:   m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("ConsumerTask")) {}
+:   m_logger(logger ? std::move(logger) : std::make_unique<ConsoleLogger>("ConsumerTask", true)) {}
 
 void ConsumerTask::run(TaskControlBlock* task, uint8_t current_time) {
     task->setStatus(TaskStatus::RUNNING);

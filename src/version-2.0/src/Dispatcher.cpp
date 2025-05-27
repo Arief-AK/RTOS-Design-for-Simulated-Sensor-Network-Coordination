@@ -1,6 +1,6 @@
 #include "Dispatcher.hpp"
 
-Dispatcher::Dispatcher() : m_logger(std::make_unique<ConsoleLogger>("Dispatcher")) {}
+Dispatcher::Dispatcher() : m_logger(std::make_unique<ConsoleLogger>("Dispatcher", true)) {}
 
 Dispatcher::~Dispatcher(){}
 
