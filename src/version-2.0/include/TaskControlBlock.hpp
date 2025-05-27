@@ -5,6 +5,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <TaskBehaviour.hpp>
+
 enum class TaskCriticality { HARD, FIRM, SOFT };
 enum class TaskStatus { READY, RUNNING, COMPLETED };
 
@@ -30,6 +32,9 @@ public:
     TaskStatus getStatus() const;
     void setStatus(TaskStatus new_status);
 
+    // Behaviour methods
+    void bindBehaviour(TaskBehaviour* behaviour_fn);
+    void execute(uint8_t current_time);
 
 private:
     u_int8_t task_id;
@@ -48,6 +53,7 @@ private:
 
     TaskCriticality criticality;    // Criticality of the task
     TaskStatus status;              // Status of the task (READY, RUNNING, COMPLETED)
+    TaskBehaviour* behaviour;       // Binded behaviour of the task
 };
 
 #endif // TASK_CONTROL_BLOCK_HPP

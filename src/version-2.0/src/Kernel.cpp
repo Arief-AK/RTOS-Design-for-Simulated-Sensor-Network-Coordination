@@ -23,10 +23,12 @@ void Kernel::run(u_int8_t simulation_time){
 
         // Select the next task to run using the scheduler
         auto next_task = m_scheduler->select_next_task(temp_tasks, tick);
-        if(next_task){
-            // Dispatch the selected task
-            m_dispatcher->dispatch(next_task, tick);
-            tick += next_task->getComputationTime() - 1;
+        if(next_task && next_task->getStatus() == TaskStatus::READY && next_task->getArrivalTime() <= tick){
+            next_task->execute(tick);
+            tick += next_task->getComputationTime() - 1;    // Simulating the execution time of the task
+        } else {
+            // If no task is ready, log the idle state
+            m_logger->log("Tick " + std::to_string(tick));
         }
     }
 

@@ -1,5 +1,5 @@
 # Source files
-file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp" "src/*.tpp")
+file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp" "src/*.tpp" "simulation/*.cpp")
 file(GLOB_RECURSE HEADERS "include/*.hpp" "config/*.hpp" "simulation/*.hpp")
 
 # Include directories

@@ -61,3 +61,15 @@ u_int8_t TaskControlBlock::getRelDeadline() const { return rel_deadline; }
 
 TaskStatus TaskControlBlock::getStatus() const { return status; }
 void TaskControlBlock::setStatus(TaskStatus new_status) { status = new_status; }
+
+void TaskControlBlock::bindBehaviour(TaskBehaviour *behaviour_fn){
+    behaviour = behaviour_fn;
+}
+
+void TaskControlBlock::execute(uint8_t current_time){
+    if(behaviour){
+        behaviour->run(this, current_time);
+    } else {
+        std::cerr << "No behaviour bound to TaskControlBlock with ID: " << static_cast<int>(task_id) << std::endl;
+    }
+}
