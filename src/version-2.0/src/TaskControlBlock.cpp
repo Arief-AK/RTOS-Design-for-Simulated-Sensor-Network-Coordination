@@ -58,8 +58,18 @@ u_int8_t TaskControlBlock::getArrivalTime() const { return arrival_time; }
 u_int8_t TaskControlBlock::getComputationTime() const { return computation_time; }
 u_int8_t TaskControlBlock::getAbsDeadline() const { return abs_deadline; }
 u_int8_t TaskControlBlock::getRelDeadline() const { return rel_deadline; }
+u_int8_t TaskControlBlock::getStartTime() const { return start_time; }
+u_int8_t TaskControlBlock::getFinishTime() const{ return finish_time; }
+u_int8_t TaskControlBlock::getResponseTime() const { return response_time; }
+u_int8_t TaskControlBlock::getValue() const { return value; }
+u_int8_t TaskControlBlock::getTardiness() const { return tardiness; }
+
+int8_t TaskControlBlock::getLateness() const { return lateness; }
+int8_t TaskControlBlock::getLaxity() const { return laxity; }
 
 TaskStatus TaskControlBlock::getStatus() const { return status; }
+TaskCriticality TaskControlBlock::getCriticality() const { return criticality; }
+
 void TaskControlBlock::setStatus(TaskStatus new_status) { status = new_status; }
 
 void TaskControlBlock::bindBehaviour(TaskBehaviour *behaviour_fn){

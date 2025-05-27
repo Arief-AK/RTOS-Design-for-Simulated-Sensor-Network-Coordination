@@ -28,8 +28,17 @@ public:
     u_int8_t getComputationTime() const;
     u_int8_t getAbsDeadline() const;
     u_int8_t getRelDeadline() const;
+    u_int8_t getStartTime() const;
+    u_int8_t getFinishTime() const;
+    u_int8_t getResponseTime() const;
+    u_int8_t getValue() const;
+    u_int8_t getTardiness() const;
+    
+    int8_t getLateness() const;
+    int8_t getLaxity() const;
     
     TaskStatus getStatus() const;
+    TaskCriticality getCriticality() const;
     void setStatus(TaskStatus new_status);
 
     // Behaviour methods
