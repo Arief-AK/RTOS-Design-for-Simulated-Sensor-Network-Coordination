@@ -9,7 +9,7 @@ template<typename T, size_t Size>
 bool CABuffer<T, Size>::push(const T & item){
     auto flag = false;
     if(!is_full()){
-        buffer[m_tail] = item;
+        m_buffer[m_tail] = item;
         m_tail = (m_tail + 1) % Size;
         ++m_count;
         flag = true;

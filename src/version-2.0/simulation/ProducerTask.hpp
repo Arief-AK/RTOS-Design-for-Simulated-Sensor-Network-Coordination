@@ -7,12 +7,13 @@
 
 #include <TaskControlBlock.hpp>
 #include <CABuffer.hpp>
+#include <CABuffer.tpp>
 #include <config.hpp>
 #include <ConsoleLogger.hpp>
 #include <Sensor.hpp>
 
 // Simulate shared resource
-extern CABuffer<int, 10> shared_buffer;
+extern CABuffer<int, 10> sensor_data_buffer;
 
 class ProducerTask{
 public:
@@ -29,7 +30,7 @@ public:
         }
 
         auto value = m_sensor.read_value();
-        auto success = shared_buffer.push(value);
+        auto success = sensor_data_buffer.push(value);
         m_logger->log("Time : " + std::to_string(current_time) + 
                       " - Producer Task " + std::to_string(task->getTaskId()) + 
                       " sensor value: " + std::to_string(value) + 
