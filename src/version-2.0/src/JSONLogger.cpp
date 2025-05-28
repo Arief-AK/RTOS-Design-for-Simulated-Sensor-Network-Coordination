@@ -34,8 +34,13 @@ void JSONLogger::logStructure(const nlohmann::json &entry) {
 }
 
 void JSONLogger::flushToFile(const std::string &filename) {
+    // Ensure the log file is always clean
+    std::ofstream clear(m_file_path + "/" + filename + ".json", std::ios::trunc);
+    clear.close();
+    
+    // Open the file steram for writing JSON
     if(!m_file_stream.is_open()){
-        m_file_stream.open(m_file_path + "/" + filename + ".json", std::ios::app);
+        m_file_stream.open(m_file_path + "/" + filename + ".json", std::ios::trunc);
         if(!m_file_stream.is_open()){
             std::cerr << "Error opening file: " << m_file_path << std::endl;
             exit(EXIT_FAILURE);
