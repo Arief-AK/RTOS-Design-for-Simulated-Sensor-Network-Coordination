@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <cstdint>
 #include <Logger.hpp>
 #include <Scheduler.hpp>
 #include <Dispatcher.hpp>
@@ -18,7 +19,7 @@ public:
     ~Kernel();
 
     void addTask(std::unique_ptr<TaskControlBlock> task);
-    void run(u_int8_t simulation_time);
+    void run(uint8_t simulation_time);
 
 private:
     std::vector<std::unique_ptr<TaskControlBlock>> m_taskList;

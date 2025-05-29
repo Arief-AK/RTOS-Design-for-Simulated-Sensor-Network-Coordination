@@ -4,7 +4,7 @@ Dispatcher::Dispatcher() : m_logger(std::make_unique<ConsoleLogger>("Dispatcher"
 
 Dispatcher::~Dispatcher(){}
 
-void Dispatcher::dispatch(TaskControlBlock* task, u_int8_t current_time){
+void Dispatcher::dispatch(TaskControlBlock* task, uint8_t current_time){
     if (!task){
         throw std::invalid_argument("Task is null");
     }

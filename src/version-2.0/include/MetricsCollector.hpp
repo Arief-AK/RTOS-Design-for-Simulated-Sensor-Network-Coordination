@@ -4,6 +4,7 @@
 #include <map>
 #include <vector>
 #include <memory>
+#include <cstdint>
 
 #include <TaskControlBlock.hpp>
 #include <nlohmann/json.hpp>
@@ -23,16 +24,16 @@ public:
 
 private:
     struct TaskMetrics{
-        u_int8_t task_id;
-        u_int8_t arrival_time;          // Time when task is ready for execution
-        u_int8_t computation_time;      // Time required for task execution 
-        u_int8_t abs_deadline;          // Absolute deadline for task completion
-        u_int8_t rel_deadline;          // Relative deadline for task completion (difference between abs deadline and arrival time)
-        u_int8_t start_time;            // Time when task starts execution
-        u_int8_t finish_time;           // Time when task finishes execution
-        u_int8_t response_time;         // Time taken for task to respond
-        u_int8_t value;                 // Value of importance of the task
-        u_int8_t tardiness;             // Time task stays active after deadline
+        uint8_t task_id;
+        uint8_t arrival_time;          // Time when task is ready for execution
+        uint8_t computation_time;      // Time required for task execution 
+        uint8_t abs_deadline;          // Absolute deadline for task completion
+        uint8_t rel_deadline;          // Relative deadline for task completion (difference between abs deadline and arrival time)
+        uint8_t start_time;            // Time when task starts execution
+        uint8_t finish_time;           // Time when task finishes execution
+        uint8_t response_time;         // Time taken for task to respond
+        uint8_t value;                 // Value of importance of the task
+        uint8_t tardiness;             // Time task stays active after deadline
         int8_t lateness;                // Delay of task completion (if task complete before deadline, lateness is negative)
         int8_t laxity;                  // Maximum time can be delayed without missing its deadline
         std::string criticality;    // Criticality of the task

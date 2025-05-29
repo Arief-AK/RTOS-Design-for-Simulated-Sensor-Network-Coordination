@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <sstream>
+#include <cstdint>
 
 #include <TaskBehaviour.hpp>
 
@@ -13,26 +14,26 @@ enum class TaskStatus { READY, RUNNING, COMPLETED };
 class TaskControlBlock{
 public:
     TaskControlBlock(
-        u_int8_t id, u_int8_t arrival, u_int8_t computation, u_int8_t deadline,
-        TaskCriticality critical, u_int8_t value
+        uint8_t id, uint8_t arrival, uint8_t computation, uint8_t deadline,
+        TaskCriticality critical, uint8_t value
     );
     ~TaskControlBlock();
 
-    void updateMetrics(u_int8_t current_time);
+    void updateMetrics(uint8_t current_time);
 
     // Accessor methods
     std::stringstream get_stats() const;
 
-    u_int8_t getTaskId() const;
-    u_int8_t getArrivalTime() const;
-    u_int8_t getComputationTime() const;
-    u_int8_t getAbsDeadline() const;
-    u_int8_t getRelDeadline() const;
-    u_int8_t getStartTime() const;
-    u_int8_t getFinishTime() const;
-    u_int8_t getResponseTime() const;
-    u_int8_t getValue() const;
-    u_int8_t getTardiness() const;
+    uint8_t getTaskId() const;
+    uint8_t getArrivalTime() const;
+    uint8_t getComputationTime() const;
+    uint8_t getAbsDeadline() const;
+    uint8_t getRelDeadline() const;
+    uint8_t getStartTime() const;
+    uint8_t getFinishTime() const;
+    uint8_t getResponseTime() const;
+    uint8_t getValue() const;
+    uint8_t getTardiness() const;
     
     int8_t getLateness() const;
     int8_t getLaxity() const;
@@ -46,16 +47,16 @@ public:
     void execute(uint8_t current_time);
 
 private:
-    u_int8_t task_id;
-    u_int8_t arrival_time;          // Time when task is ready for execution
-    u_int8_t computation_time;      // Time required for task execution 
-    u_int8_t abs_deadline;          // Absolute deadline for task completion
-    u_int8_t rel_deadline;          // Relative deadline for task completion (difference between abs deadline and arrival time)
-    u_int8_t start_time;            // Time when task starts execution
-    u_int8_t finish_time;           // Time when task finishes execution
-    u_int8_t response_time;         // Time taken for task to respond
-    u_int8_t value;                 // Value of importance of the task
-    u_int8_t tardiness;             // Time task stays active after deadline
+    uint8_t task_id;
+    uint8_t arrival_time;          // Time when task is ready for execution
+    uint8_t computation_time;      // Time required for task execution 
+    uint8_t abs_deadline;          // Absolute deadline for task completion
+    uint8_t rel_deadline;          // Relative deadline for task completion (difference between abs deadline and arrival time)
+    uint8_t start_time;            // Time when task starts execution
+    uint8_t finish_time;           // Time when task finishes execution
+    uint8_t response_time;         // Time taken for task to respond
+    uint8_t value;                 // Value of importance of the task
+    uint8_t tardiness;             // Time task stays active after deadline
     
     int8_t lateness;                // Delay of task completion (if task complete before deadline, lateness is negative)
     int8_t laxity;                  // Maximum time can be delayed without missing its deadline

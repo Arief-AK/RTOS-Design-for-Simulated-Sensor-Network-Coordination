@@ -13,8 +13,8 @@ void Kernel::addTask(std::unique_ptr<TaskControlBlock> task){
     m_taskList.push_back(std::move(task));
 }
 
-void Kernel::run(u_int8_t simulation_time){
-    for (u_int8_t tick = 0; tick < simulation_time; ++tick){
+void Kernel::run(uint8_t simulation_time){
+    for (uint8_t tick = 0; tick < simulation_time; ++tick){
         // Create vector to hold tasks that are ready for execution
         std::vector<TaskControlBlock*> temp_tasks;
 

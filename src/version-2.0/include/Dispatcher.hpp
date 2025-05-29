@@ -12,7 +12,7 @@ public:
     Dispatcher();
     ~Dispatcher();
 
-    void dispatch(TaskControlBlock* task, u_int8_t current_time);
+    void dispatch(TaskControlBlock* task, uint8_t current_time);
 
 private:
     std::unique_ptr<ConsoleLogger> m_logger;

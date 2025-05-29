@@ -1,8 +1,8 @@
 #include <TaskControlBlock.hpp>
 
 TaskControlBlock::TaskControlBlock(
-    u_int8_t id, u_int8_t arrival, u_int8_t computation, u_int8_t deadline,
-    TaskCriticality critical, u_int8_t value
+    uint8_t id, uint8_t arrival, uint8_t computation, uint8_t deadline,
+    TaskCriticality critical, uint8_t value
 ) : task_id(id), arrival_time(arrival), computation_time(computation),
     abs_deadline(deadline), rel_deadline(deadline - arrival), 
     start_time(0), finish_time(0), response_time(0), value(value),
@@ -13,7 +13,7 @@ TaskControlBlock::~TaskControlBlock() {
     // Destructor implementation (if needed)
 }
 
-void TaskControlBlock::updateMetrics(u_int8_t current_time){
+void TaskControlBlock::updateMetrics(uint8_t current_time){
     // Update the metrics based on the current time
     start_time = current_time;
     finish_time = current_time + computation_time;
@@ -53,16 +53,16 @@ std::stringstream TaskControlBlock::get_stats() const {
     return stream;
 }
 
-u_int8_t TaskControlBlock::getTaskId() const { return task_id; }
-u_int8_t TaskControlBlock::getArrivalTime() const { return arrival_time; }
-u_int8_t TaskControlBlock::getComputationTime() const { return computation_time; }
-u_int8_t TaskControlBlock::getAbsDeadline() const { return abs_deadline; }
-u_int8_t TaskControlBlock::getRelDeadline() const { return rel_deadline; }
-u_int8_t TaskControlBlock::getStartTime() const { return start_time; }
-u_int8_t TaskControlBlock::getFinishTime() const{ return finish_time; }
-u_int8_t TaskControlBlock::getResponseTime() const { return response_time; }
-u_int8_t TaskControlBlock::getValue() const { return value; }
-u_int8_t TaskControlBlock::getTardiness() const { return tardiness; }
+uint8_t TaskControlBlock::getTaskId() const { return task_id; }
+uint8_t TaskControlBlock::getArrivalTime() const { return arrival_time; }
+uint8_t TaskControlBlock::getComputationTime() const { return computation_time; }
+uint8_t TaskControlBlock::getAbsDeadline() const { return abs_deadline; }
+uint8_t TaskControlBlock::getRelDeadline() const { return rel_deadline; }
+uint8_t TaskControlBlock::getStartTime() const { return start_time; }
+uint8_t TaskControlBlock::getFinishTime() const{ return finish_time; }
+uint8_t TaskControlBlock::getResponseTime() const { return response_time; }
+uint8_t TaskControlBlock::getValue() const { return value; }
+uint8_t TaskControlBlock::getTardiness() const { return tardiness; }
 
 int8_t TaskControlBlock::getLateness() const { return lateness; }
 int8_t TaskControlBlock::getLaxity() const { return laxity; }
