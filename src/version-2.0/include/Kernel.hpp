@@ -24,6 +24,8 @@ public:
     void run(uint8_t simulation_time);
     void runPreemptive(uint8_t simulation_time);
 
+    const std::vector<std::unique_ptr<TaskControlBlock>>& getTaskList() const;
+
 private:
     std::vector<std::unique_ptr<TaskControlBlock>> m_taskList;
     std::queue<TaskControlBlock*> m_ready_queue;

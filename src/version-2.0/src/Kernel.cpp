@@ -111,6 +111,10 @@ void Kernel::runPreemptive(uint8_t simulation_time){
     }
 }
 
+const std::vector<std::unique_ptr<TaskControlBlock>>& Kernel::getTaskList() const{
+    return m_taskList;
+}
+
 void Kernel::_update_ready_queue(uint8_t tick){
     for (auto &task : m_taskList){
         if(task->getStatus() == TaskStatus::READY && task->getArrivalTime() == tick){
