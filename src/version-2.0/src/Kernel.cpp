@@ -56,3 +56,65 @@ void Kernel::run(uint8_t simulation_time){
     m_json_logger->flushToFile("Kernel_task_statistics");
     m_logger->log("\n----------------- END OF TASK STATISTICS -----------------");
 }
+
+void Kernel::runPreemptive(uint8_t simulation_time){
+    // Initialise the current task
+    m_current_task = nullptr;
+
+    for (uint8_t tick = 0; tick < simulation_time; ++tick){
+        // Update the ready queue
+        _update_ready_queue(tick);
+
+        // Select the next task based on scheduler's policy
+        std::vector<TaskControlBlock*> ready_tasks;
+        std::queue<TaskControlBlock*> temp_queue;
+
+        while (!m_ready_queue.empty()){
+            TaskControlBlock* task = m_ready_queue.front();
+            m_ready_queue.pop();
+            if(!task->isCompleted()){
+                ready_tasks.push_back(task);
+                temp_queue.push(task);
+            }
+        }
+        m_ready_queue = temp_queue;
+
+        // Get selected task from the scheduler
+        auto selected = m_scheduler->select_next_task(ready_tasks, tick);
+        
+        // Check preemption: If higher priority task is selected
+        if (selected && selected != m_current_task){
+            if(m_current_task && !m_current_task->isCompleted()){
+                m_current_task->setStatus(TaskStatus::READY);
+                m_ready_queue.push(m_current_task);
+            }
+            m_current_task = selected;
+        }
+
+        // Execute tick of the current task
+        if(m_current_task && !m_current_task->isCompleted()){
+            m_current_task->setStatus(TaskStatus::RUNNING);
+            m_current_task->run_tick(tick);
+
+            m_logger->log("Tick " + std::to_string(tick) + ": Executing Task ID " + std::to_string(m_current_task->getTaskId()) + 
+                          " (Remaining Time: " + std::to_string(m_current_task->getRemainingTime()) + ")");
+
+            if(m_current_task->isCompleted()){
+                m_current_task->setStatus(TaskStatus::COMPLETED);
+                m_current_task = nullptr;
+            } else {
+                m_current_task->setStatus(TaskStatus::READY);
+            }
+        }else{
+            m_logger->log("Tick " + std::to_string(tick) + ": Idle.");
+        }
+    }
+}
+
+void Kernel::_update_ready_queue(uint8_t tick){
+    for (auto &task : m_taskList){
+        if(task->getStatus() == TaskStatus::READY && task->getArrivalTime() == tick){
+            m_ready_queue.push(task.get());
+        }
+    }
+}

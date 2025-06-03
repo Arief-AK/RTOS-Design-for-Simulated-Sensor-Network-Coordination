@@ -19,6 +19,8 @@ public:
     );
     ~TaskControlBlock();
 
+    // Helper methods
+    void reset();
     void updateMetrics(uint8_t current_time);
 
     // Accessor methods
@@ -34,6 +36,7 @@ public:
     uint8_t getResponseTime() const;
     uint8_t getValue() const;
     uint8_t getTardiness() const;
+    uint8_t getRemainingTime() const;
     
     int8_t getLateness() const;
     int8_t getLaxity() const;
@@ -42,9 +45,15 @@ public:
     TaskCriticality getCriticality() const;
     void setStatus(TaskStatus new_status);
 
+    // State methods
+    bool isCompleted() const;
+    bool isRunning() const;
+    bool isReady() const;
+
     // Behaviour methods
-    void bindBehaviour(TaskBehaviour* behaviour_fn);
-    void execute(uint8_t current_time);
+    void bindBehaviour(TaskBehaviour* behaviour_fn);    // Bind function behaviour
+    void execute(uint8_t current_time);                 // Execute binded function behaviour
+    void run_tick(uint8_t current_time);                // Run a single tick of the task execution
 
 private:
     uint8_t task_id;
@@ -57,6 +66,7 @@ private:
     uint8_t response_time;         // Time taken for task to respond
     uint8_t value;                 // Value of importance of the task
     uint8_t tardiness;             // Time task stays active after deadline
+    uint8_t remaining_time;        // Remaining time for task completion (used in preemptive scheduling)
     
     int8_t lateness;                // Delay of task completion (if task complete before deadline, lateness is negative)
     int8_t laxity;                  // Maximum time can be delayed without missing its deadline
