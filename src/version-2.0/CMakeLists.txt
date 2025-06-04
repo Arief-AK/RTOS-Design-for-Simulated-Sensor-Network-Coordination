@@ -41,9 +41,9 @@ target_link_libraries(v2-test_scheduler_sanity
 )
 add_test(NAME V2_SchedulerSanityTest COMMAND v2-test_scheduler_sanity)
 
-add_executable(v2-test_kernel_sanity tests/test_kernel_sanity.cpp)
-target_link_libraries(v2-test_kernel_sanity
+add_executable(v2-test_preemptive_kernel tests/test_preemptive_kernel.cpp)
+target_link_libraries(v2-test_preemptive_kernel
     GTest::gtest_main
     rtos_core
 )
-add_test(NAME V2_KernelSanityTest COMMAND v2-test_kernel_sanity)
+add_test(NAME V2_PreemptiveKernelTest COMMAND v2-test_preemptive_kernel)
