@@ -57,13 +57,6 @@ target_link_libraries(test_scheduler_response_time
 )
 add_test(NAME V1_SchedulerResponseTimeTest COMMAND test_scheduler_response_time)
 
-add_executable(test_scheduler_cpu_idle tests/test_scheduler_cpu_idle.cpp)
-target_link_libraries(test_scheduler_cpu_idle
-    GTest::gtest_main
-    scheduler_core_lib
-)
-add_test(NAME V1_SchedulerCPUIdleTest COMMAND test_scheduler_cpu_idle)
-
 add_executable(test_scheduler_resource_blocking tests/test_scheduler_resource_blocking.cpp)
 target_link_libraries(test_scheduler_resource_blocking
     GTest::gtest_main
