@@ -1,7 +1,7 @@
 #include <CSVLogger.hpp>
 
 CSVLogger::CSVLogger(const std::string &name)
-    : m_logger_name(name), m_file_path("../../../csv/"), m_task_list{}
+    : m_logger_name(name), m_file_path("../../../csv/version-1.0/"), m_task_list{}
 {
     std::filesystem::create_directories(m_file_path);
 }
