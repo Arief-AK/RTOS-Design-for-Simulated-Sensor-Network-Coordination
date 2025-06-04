@@ -20,9 +20,16 @@ public:
     );
     ~Kernel();
 
+    // Task management
     void addTask(std::unique_ptr<TaskControlBlock> task);
+    
+    // Kernel execution methods
     void run(uint8_t simulation_time);
     void runPreemptive(uint8_t simulation_time);
+
+    // Accessor methods
+    uint32_t getContextSwitchCount() const;
+    const std::vector<std::unique_ptr<TaskControlBlock>>& getTaskList() const;
 
 private:
     std::vector<std::unique_ptr<TaskControlBlock>> m_taskList;
@@ -38,6 +45,7 @@ private:
     void _update_ready_queue(uint8_t tick);
 
     TaskControlBlock* m_current_task = nullptr;
+    uint32_t m_context_switch_count = 0;
 };
 
 #endif // KERNEL_HPP
