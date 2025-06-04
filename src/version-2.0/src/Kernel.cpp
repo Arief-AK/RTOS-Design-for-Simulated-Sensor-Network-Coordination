@@ -87,6 +87,7 @@ void Kernel::runPreemptive(uint8_t simulation_time){
             if(m_current_task && !m_current_task->isCompleted()){
                 m_current_task->setStatus(TaskStatus::READY);
                 m_ready_queue.push(m_current_task);
+                m_context_switch_count++;
             }
             m_current_task = selected;
         }
@@ -113,6 +114,10 @@ void Kernel::runPreemptive(uint8_t simulation_time){
 
 const std::vector<std::unique_ptr<TaskControlBlock>>& Kernel::getTaskList() const{
     return m_taskList;
+}
+
+uint32_t Kernel::getContextSwitchCount() const{
+    return m_context_switch_count;
 }
 
 void Kernel::_update_ready_queue(uint8_t tick){
