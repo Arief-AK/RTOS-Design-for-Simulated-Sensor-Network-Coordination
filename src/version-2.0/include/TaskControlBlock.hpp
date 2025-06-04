@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdint>
+#include <memory>
 
 #include <TaskBehaviour.hpp>
 
@@ -38,12 +39,17 @@ public:
     uint8_t getTardiness() const;
     uint8_t getRemainingTime() const;
     
+    // Accessor methods
     int8_t getLateness() const;
     int8_t getLaxity() const;
-    
     TaskStatus getStatus() const;
     TaskCriticality getCriticality() const;
+
+    // Mitator methods
     void setStatus(TaskStatus new_status);
+    void setStartTime(uint8_t time);
+    void setResponseTime(uint8_t time);
+    void setFinishTime(uint8_t time);
 
     // State methods
     bool isCompleted() const;
@@ -51,9 +57,12 @@ public:
     bool isReady() const;
 
     // Behaviour methods
-    void bindBehaviour(TaskBehaviour* behaviour_fn);    // Bind function behaviour
+    void bindBehaviour(std::shared_ptr<TaskBehaviour> behaviour_fn);    // Bind function behaviour
     void execute(uint8_t current_time);                 // Execute binded function behaviour
     void run_tick(uint8_t current_time);                // Run a single tick of the task execution
+
+    // Simulation methods
+    void decrementRemainingTime(); 
 
 private:
     uint8_t task_id;
@@ -73,7 +82,7 @@ private:
 
     TaskCriticality criticality;    // Criticality of the task
     TaskStatus status;              // Status of the task (READY, RUNNING, COMPLETED)
-    TaskBehaviour* behaviour;       // Binded behaviour of the task
+    std::shared_ptr<TaskBehaviour> behaviour;       // Binded behaviour of the task
 };
 
 #endif // TASK_CONTROL_BLOCK_HPP
