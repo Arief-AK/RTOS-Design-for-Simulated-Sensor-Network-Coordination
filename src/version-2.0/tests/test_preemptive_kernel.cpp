@@ -7,7 +7,7 @@
 #include <ProducerTask.hpp>
 #include <ConsumerTask.hpp>
 
-CABuffer<int, 10> sensor_data_buffer;
+CABuffer<int, 20> sensor_data_buffer;
 
 class PreemptiveKernelTest : public ::testing::Test{
 protected:
