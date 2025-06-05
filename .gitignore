@@ -69,4 +69,8 @@ json/
 .venv/
 __pycache__/
 
+# Visualisation files
+visualisation/version-1.0/results/
+visualisation/version-2.0/results/
+
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake
