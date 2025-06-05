@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdint>
+#include <memory>
 
 #include <TaskBehaviour.hpp>
 
@@ -19,6 +20,8 @@ public:
     );
     ~TaskControlBlock();
 
+    // Helper methods
+    void reset();
     void updateMetrics(uint8_t current_time);
 
     // Accessor methods
@@ -34,17 +37,32 @@ public:
     uint8_t getResponseTime() const;
     uint8_t getValue() const;
     uint8_t getTardiness() const;
+    uint8_t getRemainingTime() const;
     
+    // Accessor methods
     int8_t getLateness() const;
     int8_t getLaxity() const;
-    
     TaskStatus getStatus() const;
     TaskCriticality getCriticality() const;
+
+    // Mitator methods
     void setStatus(TaskStatus new_status);
+    void setStartTime(uint8_t time);
+    void setResponseTime(uint8_t time);
+    void setFinishTime(uint8_t time);
+
+    // State methods
+    bool isCompleted() const;
+    bool isRunning() const;
+    bool isReady() const;
 
     // Behaviour methods
-    void bindBehaviour(TaskBehaviour* behaviour_fn);
-    void execute(uint8_t current_time);
+    void bindBehaviour(std::shared_ptr<TaskBehaviour> behaviour_fn);    // Bind function behaviour
+    void execute(uint8_t current_time);                 // Execute binded function behaviour
+    void run_tick(uint8_t current_time);                // Run a single tick of the task execution
+
+    // Simulation methods
+    void decrementRemainingTime(); 
 
 private:
     uint8_t task_id;
@@ -57,13 +75,14 @@ private:
     uint8_t response_time;         // Time taken for task to respond
     uint8_t value;                 // Value of importance of the task
     uint8_t tardiness;             // Time task stays active after deadline
+    uint8_t remaining_time;        // Remaining time for task completion (used in preemptive scheduling)
     
     int8_t lateness;                // Delay of task completion (if task complete before deadline, lateness is negative)
     int8_t laxity;                  // Maximum time can be delayed without missing its deadline
 
     TaskCriticality criticality;    // Criticality of the task
     TaskStatus status;              // Status of the task (READY, RUNNING, COMPLETED)
-    TaskBehaviour* behaviour;       // Binded behaviour of the task
+    std::shared_ptr<TaskBehaviour> behaviour;       // Binded behaviour of the task
 };
 
 #endif // TASK_CONTROL_BLOCK_HPP

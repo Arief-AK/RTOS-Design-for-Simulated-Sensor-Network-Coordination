@@ -1,6 +1,6 @@
 #include <ConsoleLogger.hpp>
 
-ConsoleLogger::ConsoleLogger(std::string name) : m_logger_name(name), m_file_path("../../../logs/") {
+ConsoleLogger::ConsoleLogger(std::string name) : m_logger_name(name), m_file_path("../../../logs/version-1.0/") {
     // Create logs directory if it doesn't exist
     std::filesystem::create_directories(m_file_path);
 }
