@@ -16,7 +16,7 @@
 #include <Sensor.hpp>
 
 // Simulate shared resource
-extern CABuffer<int, 20> sensor_data_buffer;
+extern CABuffer<int, BUFFER_SIZE> sensor_data_buffer;
 
 class ConsumerTask : public TaskBehaviour {
 public:

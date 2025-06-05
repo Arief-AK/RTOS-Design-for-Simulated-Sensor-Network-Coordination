@@ -7,12 +7,13 @@
 #include <CABuffer.tpp>
 #include <ProducerTask.hpp>
 #include <ConsumerTask.hpp>
+#include <config.hpp>
 
 #include <RMScheduler.hpp>
 #include <PriorityScheduler.hpp>
 
 // Shared buffer for sensor data
-extern CABuffer<int, 20> sensor_data_buffer;
+extern CABuffer<int, BUFFER_SIZE> sensor_data_buffer;
 
 class Controller{
 public:

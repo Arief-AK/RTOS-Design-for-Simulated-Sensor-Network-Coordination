@@ -1,6 +1,6 @@
 #include <Controller.hpp>
 
-CABuffer<int, 20> sensor_data_buffer;
+CABuffer<int, BUFFER_SIZE> sensor_data_buffer;
 
 int main() {
     // Initialize main variables
