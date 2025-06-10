@@ -11,3 +11,7 @@ TaskControlBlock* PriorityScheduler::select_next_task(std::vector<TaskControlBlo
     }
     return selected_task;
 }
+
+const std::string& PriorityScheduler::getName() const {
+    return m_name;
+}

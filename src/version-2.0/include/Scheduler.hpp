@@ -12,6 +12,10 @@ public:
     ) = 0;
 
     virtual ~Scheduler() = default;
+    virtual const std::string& getName() const = 0;
+
+private:
+    std::string m_name;
 };
 
 #endif // SCHEDULER_HPP
