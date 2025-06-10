@@ -49,11 +49,14 @@ void Kernel::run(uint8_t simulation_time){
         }
     }
 
+    // Create file string
+    auto file_name = "Kernel_" + m_scheduler->getName() + "_task_statistics";
+
     // Log the final state of all tasks
     m_logger->log("\n\n----------------- TASK STATISTICS -----------------");
-    m_metricsCollector->generateSummaryReport();
-    m_metricsCollector->exportJSONSummary();
-    m_json_logger->flushToFile("Kernel_task_statistics");
+    m_metricsCollector->printSummaryReport();
+    m_metricsCollector->exportJSONSummary(m_scheduler->getName());
+    m_json_logger->flushToFile(file_name);
     m_logger->log("\n----------------- END OF TASK STATISTICS -----------------");
 }
 
@@ -125,7 +128,6 @@ void Kernel::runPreemptive(uint8_t simulation_time){
                         {"criticality", (m_current_task->getCriticality() == TaskCriticality::HARD ? "HARD" :
                                         m_current_task->getCriticality() == TaskCriticality::FIRM ? "FIRM" : "SOFT")},
                     });
-                // m_logger->log("[DEBUG] Task ID " + std::to_string(m_current_task ? m_current_task->getTaskId() : 9999) + " completed and set to nullptr");
                 m_current_task = nullptr;
             } else {
                 m_current_task->setStatus(TaskStatus::READY);
@@ -135,16 +137,19 @@ void Kernel::runPreemptive(uint8_t simulation_time){
         }
     }
 
+    // Create file string
+    auto file_name = "Kernel_" + m_scheduler->getName() + "_task_statistics";
+
     // Log the final state of all tasks
     m_logger->log("\n\n----------------- TASK STATISTICS -----------------");
-    m_metricsCollector->generateSummaryReport();
-    m_metricsCollector->exportJSONSummary();
+    m_metricsCollector->printSummaryReport();
+    m_metricsCollector->exportJSONSummary(m_scheduler->getName());
     m_json_logger->logStructure({
         {"context_switch_count", m_context_switch_count},
         {"total_ticks", simulation_time},
         {"task_count", m_taskList.size()},
     });
-    m_json_logger->flushToFile("Kernel_task_statistics");
+    m_json_logger->flushToFile(file_name);
     m_logger->log("\n----------------- END OF TASK STATISTICS -----------------");
 }
 
@@ -159,7 +164,6 @@ uint32_t Kernel::getContextSwitchCount() const{
 void Kernel::_update_ready_queue(uint8_t tick){
     for (auto &task : m_taskList){
         if(task->getStatus() == TaskStatus::READY && task->getArrivalTime() == tick){
-            // m_logger->log("[DEBUG] Pushing task ID " + std::to_string(task->getTaskId()) + " to ready queue at tick " + std::to_string(tick));
             m_ready_queue.push(task.get());
         }
     }

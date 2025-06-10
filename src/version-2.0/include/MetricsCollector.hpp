@@ -19,8 +19,8 @@ public:
     ~MetricsCollector();
 
     void recordTaskMetrics(const TaskControlBlock& task);
-    void generateSummaryReport() const;
-    void exportJSONSummary() const;
+    void printSummaryReport() const;
+    void exportJSONSummary(const std::string reference_name) const;
 
 private:
     struct TaskMetrics{
