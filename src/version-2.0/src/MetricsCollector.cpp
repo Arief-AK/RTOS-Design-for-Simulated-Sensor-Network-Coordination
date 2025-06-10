@@ -32,7 +32,7 @@ void MetricsCollector::recordTaskMetrics(const TaskControlBlock &task){
     m_task_data.push_back(metrics);
 }
 
-void MetricsCollector::generateSummaryReport() const{
+void MetricsCollector::printSummaryReport() const{
     for (const auto &task : m_task_data){
         std::stringstream ss;
         ss << "Task ID: " << static_cast<int>(task.task_id) << "\n"
@@ -54,7 +54,7 @@ void MetricsCollector::generateSummaryReport() const{
     }
 }
 
-void MetricsCollector::exportJSONSummary() const{
+void MetricsCollector::exportJSONSummary(const std::string reference_name) const{
     auto root = nlohmann::json::array();
 
     for (const auto &task : m_task_data){
@@ -76,7 +76,9 @@ void MetricsCollector::exportJSONSummary() const{
         });
     }
 
+    auto file_name = reference_name + "_metrics_summary";
+
     m_json_logger->logStructure(root);
-    m_json_logger->flushToFile("metrics_summary");
+    m_json_logger->flushToFile(file_name);
     m_json_logger->log("Metrics summary exported to JSON file.");
 }

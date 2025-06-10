@@ -38,6 +38,7 @@ public:
     uint8_t getValue() const;
     uint8_t getTardiness() const;
     uint8_t getRemainingTime() const;
+    uint8_t getPriority() const;
     
     // Accessor methods
     int8_t getLateness() const;
@@ -46,6 +47,7 @@ public:
     TaskCriticality getCriticality() const;
 
     // Mitator methods
+    void setPriority(uint8_t new_priority);
     void setStatus(TaskStatus new_status);
     void setStartTime(uint8_t time);
     void setResponseTime(uint8_t time);
@@ -76,6 +78,7 @@ private:
     uint8_t value;                 // Value of importance of the task
     uint8_t tardiness;             // Time task stays active after deadline
     uint8_t remaining_time;        // Remaining time for task completion (used in preemptive scheduling)
+    uint8_t priority;              // Priority field for priority-based scheduling
     
     int8_t lateness;                // Delay of task completion (if task complete before deadline, lateness is negative)
     int8_t laxity;                  // Maximum time can be delayed without missing its deadline

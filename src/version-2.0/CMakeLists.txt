@@ -34,37 +34,23 @@ endif()
 target_link_libraries(RTOS_v2.0 PRIVATE nlohmann_json::nlohmann_json)
 
 # Testing executables
-add_executable(v2-test_scheduler_sanity tests/test_scheduler_sanity.cpp)
-target_link_libraries(v2-test_scheduler_sanity
+add_executable(v2-test_kernel_features tests/test_kernel_features.cpp)
+target_link_libraries(v2-test_kernel_features
     GTest::gtest_main
     rtos_core
 )
-add_test(NAME V2_SchedulerSanityTest COMMAND v2-test_scheduler_sanity)
+add_test(NAME V2_KernelFeaturesTest COMMAND v2-test_kernel_features)
 
-add_executable(v2-test_preemptive_kernel tests/test_preemptive_kernel.cpp)
-target_link_libraries(v2-test_preemptive_kernel
+add_executable(v2-test_rm_scheduler tests/test_rm_scheduler.cpp)
+target_link_libraries(v2-test_rm_scheduler
     GTest::gtest_main
     rtos_core
 )
-add_test(NAME V2_PreemptiveKernelTest COMMAND v2-test_preemptive_kernel)
+add_test(NAME V2_RMSchedulerTest COMMAND v2-test_rm_scheduler)
 
-add_executable(v2-test_deadline_miss tests/test_deadline_miss.cpp)
-target_link_libraries(v2-test_deadline_miss
+add_executable(v2-test_priority_scheduler tests/test_priority_scheduler.cpp)
+target_link_libraries(v2-test_priority_scheduler
     GTest::gtest_main
     rtos_core
 )
-add_test(NAME V2_DeadlineMissTest COMMAND v2-test_deadline_miss)
-
-add_executable(v2-test_preemption_count tests/test_preemption_count.cpp)
-target_link_libraries(v2-test_preemption_count
-    GTest::gtest_main
-    rtos_core
-)
-add_test(NAME V2_PreemptionCountTest COMMAND v2-test_preemption_count)
-
-add_executable(v2-test_stress tests/test_stress.cpp)
-target_link_libraries(v2-test_stress
-    GTest::gtest_main
-    rtos_core
-)
-add_test(NAME V2_StressTest COMMAND v2-test_stress)
+add_test(NAME V2_PrioritySchedulerTest COMMAND v2-test_priority_scheduler)

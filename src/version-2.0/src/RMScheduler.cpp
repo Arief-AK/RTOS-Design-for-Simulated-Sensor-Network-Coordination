@@ -13,3 +13,7 @@ TaskControlBlock *RMScheduler::select_next_task(std::vector<TaskControlBlock *> 
     
     return selected_task;
 }
+
+const std::string& RMScheduler::getName() const{
+    return m_name;
+}

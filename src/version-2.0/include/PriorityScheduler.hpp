@@ -1,10 +1,10 @@
-#ifndef RMSCHEDULER_HPP
-#define RMSCHEDULER_HPP
+#ifndef PRIORITYSCHEDULER_HPP
+#define PRIORITYSCHEDULER_HPP
 
 #include <cstdint>
 #include <Scheduler.hpp>
 
-class RMScheduler : public Scheduler{
+class PriorityScheduler : public Scheduler{
 public:
     TaskControlBlock* select_next_task(
         std::vector<TaskControlBlock*>& task_list,
@@ -14,7 +14,7 @@ public:
     const std::string& getName() const override;
 
 private:
-    std::string m_name = "RMScheduler";
+    std::string m_name = "PriorityScheduler";
 };
 
-#endif // RMSCHEDULER_HPP
+#endif // PRIORITYSCHEDULER_HPP
