@@ -1,6 +1,6 @@
 #include <EDFScheduler.hpp>
 
-TaskControlBlock* EDF_SCHEDULER_HPP::select_next_task(std::vector<TaskControlBlock*>& task_list, uint8_t current_time) {
+TaskControlBlock *EDFScheduler::select_next_task(std::vector<TaskControlBlock*>& task_list, uint8_t current_time) {
     TaskControlBlock* selected_task = nullptr;
 
     for (auto &task : task_list){
@@ -12,4 +12,8 @@ TaskControlBlock* EDF_SCHEDULER_HPP::select_next_task(std::vector<TaskControlBlo
     }
     
     return selected_task;
+}
+
+const std::string& EDFScheduler::getName() const{
+    return m_name;
 }

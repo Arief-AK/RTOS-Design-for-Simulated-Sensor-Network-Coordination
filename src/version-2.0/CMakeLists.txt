@@ -48,6 +48,13 @@ target_link_libraries(v2-test_rm_scheduler
 )
 add_test(NAME V2_RMSchedulerTest COMMAND v2-test_rm_scheduler)
 
+add_executable(v2-test_edf_scheduler tests/test_edf_scheduler.cpp)
+target_link_libraries(v2-test_edf_scheduler
+    GTest::gtest_main
+    rtos_core
+)
+add_test(NAME V2_EDFSchedulerTest COMMAND v2-test_edf_scheduler)
+
 add_executable(v2-test_priority_scheduler tests/test_priority_scheduler.cpp)
 target_link_libraries(v2-test_priority_scheduler
     GTest::gtest_main
