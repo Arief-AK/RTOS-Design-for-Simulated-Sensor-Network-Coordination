@@ -10,6 +10,7 @@
 #include <config.hpp>
 
 #include <RMScheduler.hpp>
+#include <EDFScheduler.hpp>
 #include <PriorityScheduler.hpp>
 
 // Shared buffer for sensor data
@@ -21,6 +22,7 @@ public:
     ~Controller() = default;
 
     void RunRMScheduler();
+    void RunEDFScheduler();
     void RunPriorityScheduler();
 
 private:

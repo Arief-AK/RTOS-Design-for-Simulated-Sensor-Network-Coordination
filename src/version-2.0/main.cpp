@@ -10,6 +10,7 @@ int main() {
 
     // Run schedulers from the controller
     controller.RunRMScheduler();
+    controller.RunEDFScheduler();
     controller.RunPriorityScheduler();
 
     logger.log("RTOS version 2.0 finished executing tasks.");
