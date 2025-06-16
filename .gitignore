@@ -72,5 +72,6 @@ __pycache__/
 # Visualisation files
 visualisation/version-1.0/visualisation/
 visualisation/version-2.0/results/
+visualisation/version-2.0/comparison_plots/
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,cmake
