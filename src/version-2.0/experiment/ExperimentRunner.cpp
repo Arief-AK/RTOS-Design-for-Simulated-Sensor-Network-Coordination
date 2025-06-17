@@ -1,6 +1,6 @@
 #include <ExperimentRunner.hpp>
 
-ExperimentRunner::ExperimentRunner(uint8_t simulation_time) : m_simulation_time(simulation_time) {}
+ExperimentRunner::ExperimentRunner(uint8_t simulation_time) : m_simulation_time(simulation_time), m_logger("ExperimentRunner") {}
 
 ExperimentRunner::~ExperimentRunner() = default;
 
@@ -16,8 +16,16 @@ void ExperimentRunner::setTaskSet(const std::vector<std::unique_ptr<TaskControlB
 }
 
 void ExperimentRunner::runAll(){
-    for (auto &scheduler : m_schedulers){
-        _runExperiment(scheduler.get(), scheduler->getName());
+    if(!m_schedulers.empty()){
+        m_logger.log("Running experiments with " + std::to_string(m_schedulers.size()) + " schedulers.");
+
+        // Run each scheduler experiment
+        for (auto &scheduler : m_schedulers){
+            _runExperiment(scheduler.get(), scheduler->getName());
+        }
+        m_logger.log("All experiments completed.");
+    } else {
+        m_logger.log("No schedulers available for running experiments.");
     }
 }
 
@@ -30,6 +38,9 @@ std::vector<std::unique_ptr<TaskControlBlock>> ExperimentRunner::_cloneTaskSet()
 }
 
 void ExperimentRunner::_runExperiment(Scheduler *scheduler, const std::string &scheduler_name){
+    // Log the start of the experiment
+    m_logger.log("Running experiment with scheduler: " + scheduler_name);
+
     // Initialise kernel and tasks
     auto kernel = std::make_unique<Kernel>(scheduler->clone());
     auto tasks = _cloneTaskSet();
@@ -40,5 +51,5 @@ void ExperimentRunner::_runExperiment(Scheduler *scheduler, const std::string &s
     }
 
     // Run simulation
-    kernel->run(m_simulation_time);
+    kernel->runPreemptive(m_simulation_time);
 }

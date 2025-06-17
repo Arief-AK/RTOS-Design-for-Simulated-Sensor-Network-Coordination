@@ -13,6 +13,9 @@ int main() {
     controller.RunEDFScheduler();
     controller.RunPriorityScheduler();
 
+    // Run comparative experiment
+    // controller.RunComparativeExperiment();
+
     logger.log("RTOS version 2.0 finished executing tasks.");
     return 0;
 }

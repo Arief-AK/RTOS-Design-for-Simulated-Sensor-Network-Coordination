@@ -15,6 +15,7 @@ public:
 
 private:
     uint8_t m_simulation_time;
+    ConsoleLogger m_logger;
 
     std::vector<std::unique_ptr<Scheduler>> m_schedulers;
     std::vector<std::unique_ptr<TaskControlBlock>> m_task_set;

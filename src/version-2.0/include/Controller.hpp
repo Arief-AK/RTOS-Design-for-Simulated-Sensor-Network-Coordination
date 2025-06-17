@@ -13,6 +13,8 @@
 #include <EDFScheduler.hpp>
 #include <PriorityScheduler.hpp>
 
+#include <ExperimentRunner.hpp>
+
 // Shared buffer for sensor data
 extern CABuffer<int, BUFFER_SIZE> sensor_data_buffer;
 
@@ -24,9 +26,12 @@ public:
     void RunRMScheduler();
     void RunEDFScheduler();
     void RunPriorityScheduler();
+    void RunComparativeExperiment();
 
 private:
     ConsoleLogger m_logger;
+
+    std::vector<std::unique_ptr<TaskControlBlock>> _createExperimentSampleTaskSet() const;
 };
 
 #endif // V2_CONTROLLER_HPP
