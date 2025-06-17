@@ -17,3 +17,7 @@ TaskControlBlock *RMScheduler::select_next_task(std::vector<TaskControlBlock *> 
 const std::string& RMScheduler::getName() const{
     return m_name;
 }
+
+std::unique_ptr<Scheduler> RMScheduler::clone() const {
+    return std::make_unique<RMScheduler>(*this);
+}
