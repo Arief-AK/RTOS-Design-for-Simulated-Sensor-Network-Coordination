@@ -104,7 +104,7 @@ void Controller::RunPriorityScheduler(){
     kernel.addTask(std::move(c0));
     kernel.addTask(std::move(c1));
 
-    // Run the kernel
+    // Run the kernel in preemptive mode
     kernel.runPreemptive(10);
 
     m_logger.log("******************** END OF PriorityScheduler ********************\n");
