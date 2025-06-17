@@ -137,3 +137,7 @@ void TaskControlBlock::decrementRemainingTime(){
     if(remaining_time > 0)
         --remaining_time;
 }
+
+std::unique_ptr<TaskControlBlock> TaskControlBlock::clone() const {
+    return std::make_unique<TaskControlBlock>(*this);
+}

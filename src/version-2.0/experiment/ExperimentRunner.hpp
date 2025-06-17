@@ -20,7 +20,7 @@ private:
     std::vector<std::unique_ptr<TaskControlBlock>> m_task_set;
 
     std::vector<std::unique_ptr<TaskControlBlock>> _cloneTaskSet() const;
-    // void _runExperiment(Scheduler* scheduler, const std::string& scheduler_name);
+    void _runExperiment(Scheduler* scheduler, const std::string& scheduler_name);
 };
 
 #endif // EXPERIMENT_RUNNER_HPP
