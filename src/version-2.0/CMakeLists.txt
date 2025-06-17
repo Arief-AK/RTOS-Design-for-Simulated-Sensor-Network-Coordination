@@ -1,12 +1,13 @@
 # Source files
-file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp" "src/*.tpp" "simulation/*.cpp")
-file(GLOB_RECURSE HEADERS "include/*.hpp" "config/*.hpp" "simulation/*.hpp")
+file(GLOB_RECURSE SOURCES main.cpp "src/*.cpp" "src/*.tpp" "simulation/*.cpp" "experiment/*.cpp")
+file(GLOB_RECURSE HEADERS "include/*.hpp" "config/*.hpp" "simulation/*.hpp" "experiment/*.hpp")
 
 # Include directories
 include_directories(config)
 include_directories(include)
 include_directories(src)
 include_directories(simulation)
+include_directories(experiment)
 
 # Create a core library for RTOS logic (exclude main.cpp)
 set(RTOS_CORE_SOURCES)

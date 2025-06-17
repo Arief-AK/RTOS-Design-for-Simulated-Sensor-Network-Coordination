@@ -64,7 +64,9 @@ public:
     void run_tick(uint8_t current_time);                // Run a single tick of the task execution
 
     // Simulation methods
-    void decrementRemainingTime(); 
+    void decrementRemainingTime();
+
+    std::unique_ptr<TaskControlBlock> clone() const;
 
 private:
     uint8_t task_id;

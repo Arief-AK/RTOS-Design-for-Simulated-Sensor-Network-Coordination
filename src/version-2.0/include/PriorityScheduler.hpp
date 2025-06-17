@@ -12,6 +12,7 @@ public:
     ) override;
 
     const std::string& getName() const override;
+    std::unique_ptr<Scheduler> clone() const override;
 
 private:
     std::string m_name = "PriorityScheduler";

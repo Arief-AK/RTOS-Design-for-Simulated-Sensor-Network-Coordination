@@ -15,3 +15,7 @@ TaskControlBlock* PriorityScheduler::select_next_task(std::vector<TaskControlBlo
 const std::string& PriorityScheduler::getName() const {
     return m_name;
 }
+
+std::unique_ptr<Scheduler> PriorityScheduler::clone() const {
+    return std::make_unique<PriorityScheduler>(*this);
+}
